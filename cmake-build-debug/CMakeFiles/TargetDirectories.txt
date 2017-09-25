@@ -1,0 +1,2 @@
+/home/brad/Development/rust/quickstart_template/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/brad/Development/rust/quickstart_template/cmake-build-debug/CMakeFiles/edit_cache.dir
