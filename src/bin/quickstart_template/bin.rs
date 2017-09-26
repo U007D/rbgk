@@ -7,26 +7,16 @@
 extern crate quickstart_template;
 extern crate libc;
 
-mod consts {
-    pub const MSG_BACKTRACE: &'static str = "Backtrace";
-}
-
-use consts::*;
+use quickstart_template::{StdError, Args};
 use quickstart_template::error::*;
-use quickstart_template::Args;
-#[allow(unused_imports)] use libc::{EXIT_SUCCESS, EXIT_FAILURE};
-
-fn display_error_chain(e: &Error) {
-    #[allow(trivial_casts)]
-    println!("{}", (e as &StdError).display_chain());
-    if let Some(backtrace) = e.backtrace() { println!("{}: {:?}", MSG_BACKTRACE, backtrace) }
-}
+#[allow(unused_imports)]
+use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 
 pub fn main() {
     match quickstart_template::run(Args::from(std::env::args_os())) {
         Ok(r) => r,
         Err(ref e) => {
-            display_error_chain(e);
+            println!("{}", (e as &StdError).trace());
             std::process::exit(EXIT_FAILURE);
         },
     }

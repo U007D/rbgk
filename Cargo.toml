@@ -3,6 +3,16 @@ authors = ["brad"]
 name = "quickstart_template"
 version = "0.1.0"
 
+[lib]
+name = "quickstart_template"
+path = "src/lib/quickstart_template.rs"
+
+[[bin]]
+name = "quickstart_template"
+path = "src/bin/quickstart_template/bin.rs"
+test = false
+doc = false
+
 [dependencies]
 assayer = "0.2.2"
 error-chain = "0.11.0"
