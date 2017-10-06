@@ -7,8 +7,7 @@
 extern crate quickstart_template;
 extern crate libc;
 
-use quickstart_template::{StdError, Args};
-use quickstart_template::error::*;
+use quickstart_template::{StdError, Args, ErrorExt};
 #[allow(unused_imports)]
 use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 
