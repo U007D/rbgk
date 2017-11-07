@@ -8,15 +8,16 @@ extern crate quickstart_template;
 extern crate libc;
 
 use quickstart_template::{StdError, Args, ErrorExt};
-#[allow(unused_imports)]
 use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 
 pub fn main() {
-    match quickstart_template::run(Args::from(std::env::args_os())) {
-        Ok(r) => r,
-        Err(ref e) => {
-            println!("{}", (e as &StdError).trace());
-            std::process::exit(EXIT_FAILURE);
-        },
-    }
+    std::process::exit(
+        match quickstart_template::run(Args::from(std::env::args_os())) {
+            Ok(_) => EXIT_SUCCESS,
+            Err(ref e) => {
+                writeln!(&mut std::io::stderr(), "{}", e).expect(MSG_ERROR_WRITING_STDERR);
+                EXIT_FAILURE
+            },
+        }
+    );
 }

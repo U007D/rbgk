@@ -4,6 +4,8 @@
 #![warn(missing_debug_implementations, trivial_casts, trivial_numeric_casts, unused_import_braces, unused_qualifications)]
 #![deny(unused_must_use, overflowing_literals)]
 
+extern crate failure;
+#[macro_use] extern crate derive_fail;
 extern crate assayer;
 
 #[cfg(test)]
@@ -13,15 +15,16 @@ mod error;
 mod args;
 
 pub use std::error::Error as StdError;
-pub use error::{Error, ErrorExt};
+pub use error::Error;
+pub use failure::ResultExt;
 
 use assayer::MethodSyntaxValidator;
 pub use args::Args;
 
-type Result<T> = std::result::Result<T, Error>;
+type Result<T> = std::result::Result<T, self::error::Error>;
 
 pub fn run(args: Args) -> Result<()> {
-    args.validate::<Args>().map_err(|e| Error::Message { cause: Box::new(&e) })?;
+    args.validate::<Args>()?;
     println!("Hello, {}-bit world!", 0usize.count_zeros());
     Ok(())
 }
