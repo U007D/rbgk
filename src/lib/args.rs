@@ -33,7 +33,7 @@ impl From<ArgsOs> for Args {
 }
 
 impl Validator<Args> for Args {
-    fn validate(value: Args) -> Result<Self> {
+    fn validate(value: Self) -> Result<Self> {
         Ok(value)
         // Err(AssayerError::ValueInvalid(format!("{:?}", value)))
     }

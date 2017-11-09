@@ -17,5 +17,5 @@ impl fmt::Display for Error {
 }
 
 impl From<AssayerError> for Error {
-    fn from(err: AssayerError) -> Error { Error::ArgValidation(err) }
+    fn from(err: AssayerError) -> Self { Error::ArgValidation(err) }
 }
