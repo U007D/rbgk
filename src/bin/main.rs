@@ -17,7 +17,7 @@ use std::io;
 use std::io::Write;
 use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 use quickstart_template::failure::Fail;
-use quickstart_template::Args;
+//use quickstart_template::Args;
 use quickstart_template::consts::*;
 
 /// Returns a string listing the causes, if any, of a `Fail`.
@@ -31,10 +31,11 @@ fn causes(cause: Option<&Fail>) -> String {
 
 /// This crate is structured as a library with `main.rs` defining a small, optional command-line application driver.
 /// Use `cargo run` to invoke this entry point which will in turn call the library's main entry point (`run()`),
-/// passing along any supplied command-line arguments as an `Args` object (a wrapper over `Vec<String>`).
+/// passing along any supplied command-line arguments as a `Vec<String>`.
 fn main() {
     std::process::exit(
-        match quickstart_template::run(Args::from(std::env::args_os())) {
+        match quickstart_template::run(std::env::args_os().map(|os_args| os_args.to_string_lossy().to_string())
+                                                          .collect::<Vec<_>>()) {
             Ok(_) => EXIT_SUCCESS,
             Err(ref err) => {
                 writeln!(&mut io::stderr(), "{}: {}", MSG_ERROR, causes(err.cause())).expect(MSG_ERR_WRITING_STDERR);

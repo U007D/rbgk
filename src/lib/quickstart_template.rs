@@ -22,13 +22,14 @@ mod args;
 
 pub use error::Error;
 
-use assayer::MethodSyntaxValidator;
+//use assayer::MethodSyntaxValidator;
 pub use args::Args;
 
 type Result<T> = std::result::Result<T, Error>;
 
-pub fn run(args: Args) -> Result<()> {
-    args.validate::<Args>()?;
+#[allow(needless_pass_by_value, unused_variables)]
+pub fn run(args: Vec<String>) -> Result<()> {
+//    args.validate::<Vec<String>>()?;
     println!("Hello, {}-bit world!", 0_usize.count_zeros());
     Ok(())
 }
