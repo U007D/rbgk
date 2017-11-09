@@ -13,6 +13,15 @@ impl Args {
     pub fn new(args: Vec<String>) -> Self { Args(args) }
 }
 
+impl From<ArgsOs> for Args {
+    fn from(args_os: ArgsOs) -> Self {
+        //converts any non-unicode-representable character encoding -> � (U+FFFD replacement character)
+        Args(args_os.map(|arg_os| arg_os.to_string_lossy()
+                                        .to_string())
+                    .collect::<Vec<_>>())
+    }
+}
+
 impl Deref for Args {
     type Target = Vec<String>;
 
@@ -21,15 +30,6 @@ impl Deref for Args {
 
 impl DerefMut for Args {
     fn deref_mut(&mut self) -> &mut Self::Target { &mut self.0 }
-}
-
-impl From<ArgsOs> for Args {
-    fn from(args_os: ArgsOs) -> Self {
-        //converts any non-unicode-representable character encoding -> � (U+FFFD replacement character)
-        Args(args_os.map(|arg_os| arg_os.to_string_lossy()
-                                        .to_string())
-                    .collect::<Vec<_>>())
-    }
 }
 
 impl Validator<Args> for Args {
