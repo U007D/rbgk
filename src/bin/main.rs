@@ -17,17 +17,7 @@ use std::io;
 use std::io::Write;
 use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 use quickstart_template::failure::Fail;
-//use quickstart_template::Args;
 use quickstart_template::consts::*;
-
-/// Returns a string listing the causes, if any, of a `Fail`.
-/// Note: [tail call optimization](https://github.com/rust-lang/rfcs/pull/1888) should convert this to a simple loop.
-fn causes(cause: Option<&Fail>) -> String {
-    match cause {
-        None => String::new(),
-        Some(err) => format!("  {}: {}\n", MSG_CAUSED_BY, err) + causes(err.cause()).as_str(),
-    }
-}
 
 /// This crate is structured as a library with `main.rs` defining a small, optional command-line application driver.
 /// Use `cargo run` to invoke this entry point which will in turn call the library's main entry point (`run()`),
@@ -43,4 +33,13 @@ fn main() {
             },
         }
     )
+}
+
+/// Returns a string listing the causes, if any, of a `Fail`.
+/// Note: [tail call optimization](https://github.com/rust-lang/rfcs/pull/1888) should convert this to a simple loop.
+fn causes(cause: Option<&Fail>) -> String {
+    match cause {
+        None => String::new(),
+        Some(err) => format!("  {}: {}\n", MSG_CAUSED_BY, err) + causes(err.cause()).as_str(),
+    }
 }

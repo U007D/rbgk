@@ -33,3 +33,4 @@ pub fn run(args: Vec<String>) -> Result<()> {
     println!("Hello, {}-bit world!", 0_usize.count_zeros());
     Ok(())
 }
+
