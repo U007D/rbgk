@@ -3,10 +3,14 @@ authors = ["Brad Gibson"]
 name = "quickstart_template"
 version = "0.4.0"
 
+[lib]
+name = "quickstart_template"
+path = "src/lib/quickstart_template.rs"
+
 [[bin]]
 doc = false
 name = "quickstart_template"
-path = "src/bin/quickstart_template/bin.rs"
+path = "src/bin/main.rs"
 test = false
 
 [dependencies]
@@ -21,10 +25,6 @@ git = "https://github.com/withoutboats/derive-fail"
 
 [dependencies.failure]
 git = "https://github.com/withoutboats/failure"
-
-[lib]
-name = "quickstart_template"
-path = "src/lib/quickstart_template.rs"
 
 [features]
 default = []

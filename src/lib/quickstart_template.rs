@@ -10,7 +10,7 @@
         unused_qualifications, wrong_pub_self_convention)]
 #![deny(overflowing_literals, unused_must_use)]
 
-extern crate failure;
+pub extern crate failure;
 #[macro_use] extern crate derive_fail;
 extern crate assayer;
 
@@ -20,9 +20,7 @@ pub mod consts;
 mod error;
 mod args;
 
-pub use std::error::Error as StdError;
 pub use error::Error;
-pub use failure::ResultExt;
 
 use assayer::MethodSyntaxValidator;
 pub use args::Args;
