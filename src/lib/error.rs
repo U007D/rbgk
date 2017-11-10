@@ -2,9 +2,9 @@ use std::fmt;
 
 use consts::*;
 
-#[derive(Fail, Debug)]
+#[derive(Fail, Debug, PartialEq)]
 pub enum Error {
-    MyDiscriminant(#[cause] ::std::io::Error),
+    MyDiscriminant(#[cause] fmt::Error),
 }
 
 impl fmt::Display for Error {
@@ -15,6 +15,6 @@ impl fmt::Display for Error {
     }
 }
 
-impl From<::std::io::Error> for Error {
-    fn from(err: ::std::io::Error) -> Self { Error::MyDiscriminant(err) }
+impl From<fmt::Error> for Error {
+    fn from(err: fmt::Error) -> Self { Error::MyDiscriminant(err) }
 }
