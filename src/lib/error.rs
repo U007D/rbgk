@@ -1,21 +1,17 @@
 use std::fmt;
 
+#[allow(unused_imports)]
 use consts::*;
-use assayer::Error as AssayerError;
 
+#[allow(empty_enum)]
 #[derive(Fail, Debug)]
 pub enum Error {
-    ArgValidation(#[cause] AssayerError),
 }
 
+#[allow(unreachable_code)]
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", match *self {
-            Error::ArgValidation(_) => { MSG_ERR_ARG_VALIDATION },
         })
     }
-}
-
-impl From<AssayerError> for Error {
-    fn from(err: AssayerError) -> Self { Error::ArgValidation(err) }
 }

@@ -2,3 +2,5 @@
 **/*.rs.bk
 Cargo.lock
 cmake-build-*/
+.idea/
+CMakeLists.txt

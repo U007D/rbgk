@@ -3,22 +3,18 @@ authors = ["Brad Gibson"]
 name = "quickstart_template"
 version = "0.4.0"
 
-[lib]
-name = "quickstart_template"
-path = "src/lib/quickstart_template.rs"
-
 [[bin]]
 doc = false
 name = "quickstart_template"
-path = "src/bin/main.rs"
+path = "src/app/main.rs"
 test = false
 
 [dependencies]
 libc = "0.2.31"
-clippy = {version = "*", optional = true}
 
-[dependencies.assayer]
-git = "https://github.com/humanenginuity/assayer"
+[dependencies.clippy]
+optional = true
+version = "*"
 
 [dependencies.derive-fail]
 git = "https://github.com/withoutboats/derive-fail"
@@ -28,3 +24,7 @@ git = "https://github.com/withoutboats/failure"
 
 [features]
 default = []
+
+[lib]
+name = "quickstart_template"
+path = "src/lib/quickstart_template.rs"

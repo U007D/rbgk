@@ -12,25 +12,33 @@
 
 pub extern crate failure;
 #[macro_use] extern crate derive_fail;
-extern crate assayer;
 
-#[cfg(test)]
-mod unit_tests;
+#[cfg(test)] mod unit_tests;
 pub mod consts;
 mod error;
-mod args;
+mod validate;
 
 pub use error::Error;
-
-//use assayer::MethodSyntaxValidator;
-pub use args::Args;
+use validate::Validate;
 
 type Result<T> = std::result::Result<T, Error>;
 
+/// # Arguments
+/// `args`: a `Vec<String>` of zero or more arguments to be passed into the library.
+///
+/// # Errors
+/// Returns an error in the event that any unhandled errors arise during execution.  Rather than returning a
+/// type-erased `Box<std::error::Error>` or downcastable `Fail::Error`, `run()` returns a strongly typed
+/// `self::error::Error` which can be exhaustively matched or coerced into a `Fail::Error` at the caller's discretion.
+///
+/// # Examples
+/// See `app/main.rs` `main()` for a robust example use case.
+///
+/// # Remarks
+/// This method is the library's primary entry point.
 #[allow(needless_pass_by_value, unused_variables)]
 pub fn run(args: Vec<String>) -> Result<()> {
-//    args.validate::<Vec<String>>()?;
+    (&args).validate()?;
     println!("Hello, {}-bit world!", 0_usize.count_zeros());
     Ok(())
 }
-
