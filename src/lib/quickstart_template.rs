@@ -38,7 +38,7 @@ type Result<T> = std::result::Result<T, Error>;
 /// This method is the library's primary entry point.
 #[allow(needless_pass_by_value, unused_variables)]
 pub fn run(args: Vec<String>) -> Result<()> {
-    args.validate(|| Ok(()))?;
+    (&args).validate(|args| Ok(()))?;
     println!("Hello, {}-bit world!", 0_usize.count_zeros());
     Ok(())
 }
