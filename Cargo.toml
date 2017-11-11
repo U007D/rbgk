@@ -1,7 +1,32 @@
 [package]
 authors = ["Brad Gibson"]
 name = "quickstart_template"
-version = "0.4.0"
+version = "4.0.0"
+
+[workspace]
+
+[dependencies]
+#my_sublibary = { path = "my_sublibrary" } #issue `cargo new my_sublibrary` from root folder of this crate
+
+[dependencies.libc]
+version = "0.2.31"
+
+[dependencies.clippy]
+optional = true
+version = "*"
+
+[dependencies.failure_derive]
+git = "https://github.com/withoutboats/failure_derive"
+
+[dependencies.failure]
+git = "https://github.com/withoutboats/failure"
+
+[features]
+default = ["clippy"]
+
+[lib]
+name = "quickstart_template"
+path = "src/lib/quickstart_template.rs"
 
 [[bin]]
 doc = false
@@ -9,22 +34,61 @@ name = "quickstart_template"
 path = "src/app/main.rs"
 test = false
 
-[dependencies]
-libc = "0.2.31"
+# The development profile, used for `cargo build`.
+[profile.dev]
+opt-level = 0      # controls the `--opt-level` the compiler builds with.
+                   # 0-1 is good for debugging. 2 is well-optimized. Max is 3.
+debug = true       # include debug information (debug symbols). Equivalent to
+                   # `-C debuginfo=2` compiler flag.
+rpath = false      # controls whether compiler should set loader paths.
+                   # If true, passes `-C rpath` flag to the compiler.
+lto = false        # Link Time Optimization usually reduces size of binaries
+                   # and static libraries. Increases compilation time.
+                   # If true, passes `-C lto` flag to the compiler.
+debug-assertions = true # controls whether debug assertions are enabled
+                   # (e.g. debug_assert!() and arithmetic overflow checks)
+codegen-units = 1  # if > 1 enables parallel code generation which improves
+                   # compile times, but prevents some optimizations.
+                   # Passes `-C codegen-units`. Ignored when `lto = true`.
+panic = 'unwind'   # panic strategy (`-C panic=...`), can also be 'abort'
 
-[dependencies.clippy]
-optional = true
-version = "*"
+# The testing profile, used for `cargo test`.
+[profile.test]
+opt-level = 0
+debug = 2
+rpath = false
+lto = false
+debug-assertions = true
+codegen-units = 1
+panic = 'unwind'
 
-[dependencies.derive-fail]
-git = "https://github.com/withoutboats/derive-fail"
+# The documentation profile, used for `cargo doc`.
+[profile.doc]
+opt-level = 0
+debug = 2
+rpath = false
+lto = false
+debug-assertions = true
+codegen-units = 1
+panic = 'unwind'
 
-[dependencies.failure]
-git = "https://github.com/withoutboats/failure"
+# The release profile, used for `cargo build --release`.
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'unwind'
 
-[features]
-default = []
+# The benchmarking profile, used for `cargo bench` and `cargo test --release`.
+[profile.bench]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'unwind'
 
-[lib]
-name = "quickstart_template"
-path = "src/lib/quickstart_template.rs"

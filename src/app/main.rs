@@ -15,17 +15,18 @@ extern crate libc;
 
 use std::io;
 use std::io::Write;
-use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 use quickstart_template::failure::Fail;
 use quickstart_template::consts::*;
 
+const EXIT_SUCCESS: i32 = 0;
+const EXIT_FAILURE: i32 = 1;
 /// This crate is structured as a library with `app/main.rs` defining a small, optional command-line application driver.
 /// Use `cargo run` to invoke this entry point which will in turn call the library's main entry point (`run()`),
 /// passing along any supplied command-line arguments as a `Vec<String>`.
 fn main() {
     std::process::exit(
-        match quickstart_template::run(std::env::args_os().map(|os_args| os_args.to_string_lossy().to_string())
-                                                          .collect::<Vec<_>>()) {
+        match quickstart_template::run(/*std::env::args_os().map(|os_args| os_args.to_string_lossy().to_string())
+                                                          .collect::<Vec<_>>()*/) {
             Ok(_) => EXIT_SUCCESS,
             Err(ref err) => {
                 writeln!(&mut io::stderr(), "{}: {}", MSG_ERROR, causes(err.cause())).expect(MSG_ERR_WRITING_STDERR);
