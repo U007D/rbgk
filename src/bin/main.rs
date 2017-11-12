@@ -20,7 +20,7 @@ use quickstart_template::failure::Fail;
 use quickstart_template::consts::*;
 use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 
-/// This crate is structured as a library with `app/main.rs` defining a small, optional command-line application driver.
+/// This crate is structured as a library with `bin/main.rs` defining a small, optional command-line application driver.
 /// Use `cargo run` to invoke this entry point which will call the crate's main library entry point (`run()`) and report
 /// on returned errors, if any.
 fn main() {
