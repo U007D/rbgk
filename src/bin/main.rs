@@ -16,7 +16,7 @@ extern crate libc;
 use std::io;
 use std::io::Write;
 
-use quickstart_template::failure::Fail;
+use quickstart_template::failure::Fail as Fail;
 use quickstart_template::consts::*;
 use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 

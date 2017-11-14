@@ -1,5 +1,7 @@
-#![cfg_attr(feature="clippy", feature(plugin))]
+#![cfg_attr(feature="clippy", feature(plugin))] //nightly rustc required by `clippy`
 #![cfg_attr(feature="clippy", plugin(clippy))]
+#![feature(proc_macro)] //nightly rustc required by `galvanic-mock`
+#![allow(unused_imports)] //disable false positives
 #![warn(cast_possible_truncation, cast_possible_wrap, cast_precision_loss, cast_sign_loss, empty_enum, enum_glob_use,
         fallible_impl_from, filter_map, if_not_else, int_plus_one, invalid_upcast_comparisons, maybe_infinite_iter,
         mem_forget, missing_debug_implementations, mut_mut, mutex_integer, nonminimal_bool, option_map_unwrap_or,
@@ -11,14 +13,19 @@
 #![deny(overflowing_literals, unused_must_use)]
 
 pub extern crate failure;
-extern crate galvanic_test;
 #[macro_use] extern crate failure_derive;
+extern crate galvanic_mock;
+#[macro_use] extern crate galvanic_assert;
+#[macro_use] extern crate galvanic_test;
 
 #[cfg(test)] mod unit_tests;
 pub mod consts;
 mod error;
+mod arch;
 
+use std::io::Write;
 pub use error::Error;
+use arch::Info;
 
 type Result<T> = std::result::Result<T, Error>;
 
@@ -29,7 +36,17 @@ type Result<T> = std::result::Result<T, Error>;
 ///
 /// # Remarks
 /// This method is the library's primary entry point.
-pub fn run() -> Result<()> {
-    println!("Hello, {}-bit world!", 0_usize.count_zeros());
-    Ok(())
+pub struct App<F: Fn() -> usize> {
+    width: F,
 }
+
+impl<F: Fn() -> usize> App<F> {
+    pub fn new(width: F) -> Self { Self { width } }
+
+    pub fn run(&mut self) -> Result<String> {
+        let mut buf = Vec::<u8>::new();
+        writeln!(&mut buf, "Hello, {}-bit world!", (self.width)())?;
+        Ok(String::from_utf8(buf)?)
+    }
+}
+
