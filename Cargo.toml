@@ -8,6 +8,10 @@ doc = false
 name = "quickstart_template"
 path = "src/bin/main.rs"
 test = false
+
+[dependencies]
+galvanic-test = "0.1.3"
+
 [dependencies.clippy]
 optional = true
 version = "*"

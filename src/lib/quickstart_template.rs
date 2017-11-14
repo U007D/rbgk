@@ -11,6 +11,7 @@
 #![deny(overflowing_literals, unused_must_use)]
 
 pub extern crate failure;
+extern crate galvanic_test;
 #[macro_use] extern crate failure_derive;
 
 #[cfg(test)] mod unit_tests;
