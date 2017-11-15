@@ -24,9 +24,13 @@ use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 /// Use `cargo run` to invoke this entry point which will call the crate's main library entry point (`run()`) and report
 /// on returned errors, if any.
 fn main() {
+    let app = quickstart_template::App::new(quickstart_template::arch::Arch.width());
     std::process::exit(
-        match quickstart_template::run() {
-            Ok(_) => EXIT_SUCCESS,
+        match app.run() {
+            Ok(ref msg) => {
+                writeln!(&mut io::stdout(), "{}", msg);
+                EXIT_SUCCESS
+            },
             Err(ref err) => {
                 writeln!(&mut io::stderr(), "{}: {}", MSG_ERROR, causes(err.cause())).expect(MSG_ERR_WRITING_STDERR);
                 EXIT_FAILURE

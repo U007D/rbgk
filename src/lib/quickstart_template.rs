@@ -36,17 +36,16 @@ type Result<T> = std::result::Result<T, Error>;
 ///
 /// # Remarks
 /// This method is the library's primary entry point.
-pub struct App<F: Fn() -> usize> {
-    width: F,
+#[derive(Debug, Clone, PartialEq)]
+pub struct App<F: arch::Info> {
+    info: F,
 }
 
-impl<F: Fn() -> usize> App<F> {
-    pub fn new(width: F) -> Self { Self { width } }
+impl<F: arch::Info> App<F> {
+    pub fn new(info: F) -> Self { Self { info } }
 
-    pub fn run(&mut self) -> Result<String> {
-        let mut buf = Vec::<u8>::new();
-        writeln!(&mut buf, "Hello, {}-bit world!", (self.width)())?;
-        Ok(String::from_utf8(buf)?)
+    pub fn run(&self) -> Result<String> {
+        Ok(format!("Hello, {}-bit world!", self.info.width(3)))
     }
 }
 

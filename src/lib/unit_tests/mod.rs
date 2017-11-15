@@ -10,13 +10,13 @@ test_suite! {
     test yields_expected_word_width() {
         //given
         let arch_width = 42_usize;
-        let expected_result = format!("Hello, {}-bit world!\n", arch_width);
-        let mut app = App::new(|| arch_width);
+        let mock = new_mock!(Info);
 
-        //when
-        let result = app.run();
+        given! {
+            <mock as Info>::width(|_| true) then_return 42 times 1;
+        }
 
-        //then
-        assert_eq!(result.unwrap(), expected_result)
+        let expected_result = format!("Hello, {}-bit world!", arch_width);
+        let app = App::new(mock);
     }
 }
