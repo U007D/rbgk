@@ -1,6 +1,6 @@
 #![cfg_attr(feature="clippy", feature(plugin))] //nightly rustc required by `clippy`
 #![cfg_attr(feature="clippy", plugin(clippy))]
-#![feature(proc_macro)] //nightly rustc required by `galvanic-mock`
+#![feature(proc_macro, galvanic_mock_integration)] //req'd by galvanic-mock, galvanic-test + galvanic-mock
 #![allow(unused_imports)] //disable false positives
 #![warn(cast_possible_truncation, cast_possible_wrap, cast_precision_loss, cast_sign_loss, empty_enum, enum_glob_use,
         fallible_impl_from, filter_map, if_not_else, int_plus_one, invalid_upcast_comparisons, maybe_infinite_iter,
@@ -37,15 +37,15 @@ type Result<T> = std::result::Result<T, Error>;
 /// # Remarks
 /// This method is the library's primary entry point.
 #[derive(Debug, Clone, PartialEq)]
-pub struct App<F: arch::Info> {
+pub struct App<F: Info> {
     info: F,
 }
 
-impl<F: arch::Info> App<F> {
+impl<F: Info> App<F> {
     pub fn new(info: F) -> Self { Self { info } }
 
     pub fn run(&self) -> Result<String> {
-        Ok(format!("Hello, {}-bit world!", self.info.width(3)))
+        Ok(format!("Hello, {}-bit world!", self.info.width()))
     }
 }
 
