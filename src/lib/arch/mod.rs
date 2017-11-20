@@ -11,14 +11,14 @@ pub trait Info {
     fn width(&self) -> usize;
 }
 
+#[allow(dead_code)] //Undetected use in galvanic unit test
 pub struct Arch;
 
 impl Arch {
+    #[allow(dead_code)] //Undetected use in galvanic unit test
     pub fn new() -> Self { Self {} }
 }
 
 impl Info for Arch {
-    fn width(&self) -> usize {
-        0_usize.count_zeros() as usize
-    }
+    fn width(&self) -> usize { 0_usize.count_zeros() as usize }
 }

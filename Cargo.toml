@@ -13,13 +13,10 @@ test = false
 optional = true
 version = "*"
 
-[dependencies.failure]
-git = "https://github.com/withoutboats/failure"
-
 [dependencies.failure_derive]
-git = "https://github.com/withoutboats/failure_derive"
+version = "~0"
 
-[dependencies.libc]
+[dependencies.failure]
 version = "~0"
 
 [dependencies.galvanic-assert]
@@ -33,12 +30,16 @@ version = "*"
 features = ["galvanic_mock_integration"]
 version = "*"
 
+[dependencies.libc]
+version = "~0"
+
 [features]
 default = ["clippy"]
 
 [lib]
 name = "quickstart_template"
 path = "src/lib/quickstart_template.rs"
+
 [profile.bench]
 codegen-units = 1
 debug = false

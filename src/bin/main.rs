@@ -13,8 +13,7 @@
 extern crate quickstart_template;
 extern crate libc;
 
-use std::io;
-use std::io::Write;
+use std::io::{self, Write};
 
 use quickstart_template::failure::Fail as Fail;
 use quickstart_template::consts::*;
