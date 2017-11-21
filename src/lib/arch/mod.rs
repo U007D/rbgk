@@ -1,8 +1,6 @@
-use super::*;
-
 #[cfg(test)] mod unit_tests;
 
-use galvanic_mock::{mockable, use_mocks};
+use galvanic_mock::mockable;
 
 #[mockable]
 pub trait Info {

@@ -8,10 +8,6 @@ doc = false
 name = "quickstart_template"
 path = "src/bin/main.rs"
 test = false
-
-[dependencies.lazy_static]
-version = "0.*"
-
 [dependencies.clippy]
 optional = true
 version = "*"
@@ -42,7 +38,6 @@ default = ["clippy"]
 [lib]
 name = "quickstart_template"
 path = "src/lib/quickstart_template.rs"
-
 [profile.bench]
 codegen-units = 1
 debug = false

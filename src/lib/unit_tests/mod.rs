@@ -1,8 +1,6 @@
 use super::*;
 use galvanic_test::*;
 use galvanic_assert::matchers::*;
-use galvanic_mock::{mockable, use_mocks};
-use galvanic_mock::*; //used in galvanic_mock_integration.rs example
 
 #[allow(redundant_closure, trivial_casts, unused_qualifications)] //does nothing; TODO: open issues
 test_suite! {

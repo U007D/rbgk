@@ -1,7 +1,7 @@
 #![cfg_attr(feature="clippy", feature(plugin))] //nightly rustc required by `clippy`
 #![cfg_attr(feature="clippy", plugin(clippy))]
-#![feature(proc_macro, galvanic_mock_integration, const_atomic_bool_new)] //req'd by galvanic-mock, galvanic-test + galvanic-mock
-#![allow(redundant_closure /*galvanic*/)] //disable false positives
+#![feature(proc_macro, const_atomic_bool_new, galvanic_mock_integration)] //req'd by galvanic-mock, galvanic-test + galvanic-mock
+#![allow(match_bool, redundant_closure /*galvanic*/, unnecessary_mut_passed /*galvanic*/)] //disable false positives
 #![warn(cast_possible_truncation, cast_possible_wrap, cast_precision_loss, cast_sign_loss, empty_enum, enum_glob_use,
         fallible_impl_from, filter_map, if_not_else, int_plus_one, invalid_upcast_comparisons, maybe_infinite_iter,
         mem_forget, missing_debug_implementations, mut_mut, mutex_integer, nonminimal_bool, option_map_unwrap_or,
@@ -14,27 +14,25 @@
 
 pub extern crate failure;
 #[macro_use] extern crate failure_derive;
-#[macro_use] extern crate lazy_static;
+#[allow(useless_attribute, unused_imports)] #[macro_use] extern crate galvanic_assert;
+#[allow(useless_attribute, unused_imports)] #[macro_use] extern crate galvanic_test;
 extern crate galvanic_mock;
-#[macro_use] extern crate galvanic_assert;
-#[macro_use] extern crate galvanic_test;
 
 #[cfg(test)] mod unit_tests;
 pub mod consts;
 mod error;
 mod arch;
 
-use std::io::Write;
-//pub use error::Error;
-use std::sync::atomic::AtomicBool;
-use failure::ResultExt;
-use consts::*;
+pub use error::Error;
+use std::sync::atomic::{AtomicBool, Ordering};
+#[allow(unused_imports)] use failure::ResultExt;
+#[allow(unused_imports)] use consts::*;
 use arch::Info;
 
-type Result<T> = std::result::Result<T, failure::Error>;
+type Result<T> = std::result::Result<T, Error>;
 
 // System-wide mutex
-static mut APP_INSTANTIATED: AtomicBool = AtomicBool::new(false);
+static APP_INSTANTIATED: AtomicBool = AtomicBool::new(false);
 
 /// # Errors
 /// Returns an error in the event that any unhandled errors arise during execution.  Rather than returning a
@@ -50,12 +48,9 @@ pub struct App<T: Info> {
 
 impl<T: Info> App<T> {
     pub fn new(info: T) -> Result<Self> {
-        match unsafe { APP_INSTANTIATED.get_mut() } {
-            ref mut v if !**v => {
-                **v = true;
-                Ok(Self { info })
-            },
-            _ => Err(failure::Context::new(MSG_ERR_SINGLETON_VIOLATION))?,
+        match APP_INSTANTIATED.compare_and_swap(false, true, Ordering::Relaxed) {
+            true => Err(Error::SingletonViolation),
+            false => Ok(Self { info }),
         }
     }
 
