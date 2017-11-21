@@ -51,7 +51,7 @@ test_suite! {
         }
 
         let expected_result = format!("Hello, {}-bit world!", arch_width);
-        let subject = App::new(mock);
+        let subject = App::new(mock).unwrap();
 
         // when
         let result = subject.run();
