@@ -9,15 +9,18 @@ name = "quickstart_template"
 path = "src/bin/main.rs"
 test = false
 
+[dependencies.lazy_static]
+version = "0.*"
+
 [dependencies.clippy]
 optional = true
 version = "*"
 
-[dependencies.failure_derive]
-version = "~0"
-
 [dependencies.failure]
-version = "~0"
+version = "0.*"
+
+[dependencies.failure_derive]
+version = "0.*"
 
 [dependencies.galvanic-assert]
 version = "*"

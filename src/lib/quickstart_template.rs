@@ -14,6 +14,7 @@
 
 pub extern crate failure;
 #[macro_use] extern crate failure_derive;
+#[macro_use] extern crate lazy_static;
 extern crate galvanic_mock;
 #[macro_use] extern crate galvanic_assert;
 #[macro_use] extern crate galvanic_test;
@@ -24,10 +25,16 @@ mod error;
 mod arch;
 
 use std::io::Write;
-pub use error::Error;
+//pub use error::Error;
+use std::sync::Mutex;
+use failure::ResultExt;
+use consts::*;
 use arch::Info;
 
-type Result<T> = std::result::Result<T, Error>;
+type Result<T> = std::result::Result<T, failure::Error>;
+
+// System-wide mutex
+lazy_static! { static ref APP_ALREADY_INSTANTIATED: Mutex<bool> = Mutex::new(false); }
 
 /// # Errors
 /// Returns an error in the event that any unhandled errors arise during execution.  Rather than returning a
@@ -37,12 +44,20 @@ type Result<T> = std::result::Result<T, Error>;
 /// # Remarks
 /// This method is the library's primary entry point.
 #[derive(Debug, Clone, PartialEq)]
-pub struct App<F: Info> {
-    info: F,
+pub struct App<T: Info> {
+    info: T,
 }
 
-impl<F: Info> App<F> {
-    pub fn new(info: F) -> Self { Self { info } }
+impl<T: Info> App<T> {
+    pub fn new(info: T) -> Result<Self> {
+        match APP_ALREADY_INSTANTIATED.try_lock()? {
+            ref mut v if **v == false => {
+                **v = true;
+                Ok(Self { info })
+            },
+            _ => Err(failure::Context::new(MSG_ERR_SINGLETON_VIOLATION))?,
+        }
+    }
 
     pub fn run(&self) -> Result<String> {
         Ok(format!("Hello, {}-bit world!", self.info.width()))
