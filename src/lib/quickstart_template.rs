@@ -1,7 +1,7 @@
 #![cfg_attr(feature="clippy", feature(plugin))] //nightly rustc required by `clippy`
 #![cfg_attr(feature="clippy", plugin(clippy))]
 #![feature(proc_macro, galvanic_mock_integration, const_atomic_bool_new)] //req'd by galvanic-mock, galvanic-test + galvanic-mock
-#![allow(unused_imports, redundant_closure /*galvanic*/)] //disable false positives
+#![allow(redundant_closure /*galvanic*/)] //disable false positives
 #![warn(cast_possible_truncation, cast_possible_wrap, cast_precision_loss, cast_sign_loss, empty_enum, enum_glob_use,
         fallible_impl_from, filter_map, if_not_else, int_plus_one, invalid_upcast_comparisons, maybe_infinite_iter,
         mem_forget, missing_debug_implementations, mut_mut, mutex_integer, nonminimal_bool, option_map_unwrap_or,
