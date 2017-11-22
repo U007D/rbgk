@@ -21,18 +21,16 @@ extern crate galvanic_mock;
 #[cfg(test)] mod unit_tests;
 pub mod consts;
 mod error;
-mod arch;
+pub mod concurrency_primitives;
+pub mod arch;
 
 pub use error::Error;
-use std::sync::atomic::{AtomicBool, Ordering};
 #[allow(unused_imports)] use failure::ResultExt;
 #[allow(unused_imports)] use consts::*;
+use concurrency_primitives::SingletonPrimitive;
 use arch::Info;
 
 type Result<T> = std::result::Result<T, Error>;
-
-// System-wide mutex
-static APP_INSTANTIATED: AtomicBool = AtomicBool::new(false);
 
 /// # Errors
 /// Returns an error in the event that any unhandled errors arise during execution.  Rather than returning a
@@ -47,8 +45,8 @@ pub struct App<T: Info> {
 }
 
 impl<T: Info> App<T> {
-    pub fn new(info: T) -> Result<Self> {
-        match APP_INSTANTIATED.compare_and_swap(false, true, Ordering::Relaxed) {
+    pub fn new<S: SingletonPrimitive>(app_state: &S, info: T) -> Result<Self> {
+        match app_state.is_already_instantiated() {
             true => Err(Error::SingletonViolation),
             false => Ok(Self { info }),
         }

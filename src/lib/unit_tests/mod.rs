@@ -1,6 +1,7 @@
 use super::*;
 use galvanic_test::*;
 use galvanic_assert::matchers::*;
+use concurrency_primitives::AppSystemWideSingleton;
 
 #[allow(redundant_closure, trivial_casts, unused_qualifications)] //does nothing; TODO: open issues
 test_suite! {
@@ -22,7 +23,8 @@ test_suite! {
     test yields_expected_word_width(info_mock(42)) {
         // given
         let expected_result = format!("Hello, {}-bit world!", info_mock.params.arch_width);
-        let subject = App::new(info_mock.into_val()).unwrap();
+        let app_state = AppSystemWideSingleton {};
+        let subject = App::new(&app_state, info_mock.into_val()).unwrap();
 
         // when
         let result = subject.run();

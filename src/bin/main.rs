@@ -19,15 +19,16 @@ use quickstart_template::failure::Fail as Fail;
 use quickstart_template::consts::*;
 use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 
+type Result<T> = std::result::Result<T, quickstart_template::Error>;
+
 /// This crate is structured as a library with `bin/main.rs` defining a small, optional command-line application driver.
 /// Use `cargo run` to invoke this entry point which will call the crate's main library entry point (`run()`) and report
 /// on returned errors, if any.
 fn main() {
-    let app = quickstart_template::App::new(quickstart_template::arch::Arch.width());
     std::process::exit(
-        match app.run() {
+        match run() {
             Ok(ref msg) => {
-                writeln!(&mut io::stdout(), "{}", msg);
+                writeln!(&mut io::stdout(), "{}", msg).expect(MSG_ERR_WRITING_STDOUT);
                 EXIT_SUCCESS
             },
             Err(ref err) => {
@@ -36,6 +37,15 @@ fn main() {
             },
         }
     )
+}
+
+fn run() -> Result<String> {
+    //DI registration and resolution
+    let app_state = quickstart_template::concurrency_primitives::AppSystemWideSingleton::new();
+    let arch_info = quickstart_template::arch::Arch::new();
+
+    let app = quickstart_template::App::new(&app_state, arch_info)?;
+    app.run()
 }
 
 /// Returns a string listing the causes, if any, of a `Fail`.

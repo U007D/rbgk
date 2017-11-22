@@ -10,6 +10,7 @@ pub trait Info {
 }
 
 #[allow(dead_code)] //Undetected use in galvanic unit test
+#[derive(Default, Debug, PartialEq, PartialOrd, Copy, Clone)]
 pub struct Arch;
 
 impl Arch {
