@@ -27,33 +27,50 @@ pub mod arch;
 pub use error::Error;
 #[allow(unused_imports)] use failure::ResultExt;
 #[allow(unused_imports)] use consts::*;
-use concurrency_primitives::SingletonPrimitive;
+use concurrency_primitives::Singleton;
 use arch::Info;
 
 type Result<T> = std::result::Result<T, Error>;
 
-/// # Errors
-/// Returns an error in the event that any unhandled errors arise during execution.  Rather than returning a
-/// type-erased `Box<std::error::Error>` or downcastable `Fail::Error`, `run()` returns a strongly typed
-/// `self::error::Error` which can be exhaustively matched or coerced into a `Fail::Error` at the caller's discretion.
-///
-/// # Remarks
-/// This method is the library's primary entry point.
 #[derive(Debug, Clone, PartialEq)]
 pub struct App<T: Info> {
-    info: T,
+    arch_info: T,
 }
 
 impl<T: Info> App<T> {
-    pub fn new<S: SingletonPrimitive>(app_state: &S, info: T) -> Result<Self> {
-        match app_state.is_already_instantiated() {
+    /// # Returns
+    /// Application instance upon successful initialization.
+    ///
+    /// /// # Errors
+    /// Returns an error in the event that any unhandled errors arise during initialization.  Prevents application from
+    /// being instantiated more than once.
+    /// Rather than returning general, type-erased `Box<std::error::Error>`s or downcastable `Fail::Error`s, `run()`
+    /// returns a strongly typed `self::error::Error` which can be exhaustively matched or type-erased (coerced into a
+    /// `Fail::Error`) at the caller's discretion.
+    ///
+    /// # Remarks
+    /// Employs constructor dependency injection for loose coupling of the singleton management instance (this enables
+    /// downgrading or upgrading the concurrency primitive to local thread or across multiple distinct systems, for
+    /// example, without changing App's implementation at all) and the architecture's address width (again, for the
+    /// benefits gained from loose coupling).  Notice that both dependencies can now be mocked, enabling for thorough
+    /// unit testing.
+    pub fn new<S: Singleton>(app_state: &S, arch_info: T) -> Result<Self> {
+        match app_state.already_initialized() {
             true => Err(Error::SingletonViolation),
-            false => Ok(Self { info }),
+            false => Ok(Self { arch_info }),
         }
     }
 
+    /// # Returns
+    /// Result of application execution.
+    ///
+    /// # Errors
+    /// Returns an error in the event that any unhandled errors arise during execution.
+    ///
+    /// # Remarks
+    /// This method is the library's primary entry point.
     pub fn run(&self) -> Result<String> {
-        Ok(format!("Hello, {}-bit world!", self.info.width()))
+        Ok(format!("Hello, {}-bit world!", self.arch_info.width()))
     }
 }
 

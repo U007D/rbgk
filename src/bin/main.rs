@@ -22,8 +22,8 @@ use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 type Result<T> = std::result::Result<T, quickstart_template::Error>;
 
 /// This crate is structured as a library with `bin/main.rs` defining a small, optional command-line application driver.
-/// Use `cargo run` to invoke this entry point which will call the crate's main library entry point (`run()`) and report
-/// on returned errors, if any.
+/// Use `cargo run` to invoke this entry point which will return the crate's main library entry point's (`run()`) result
+/// or returned errors, if any.
 fn main() {
     std::process::exit(
         match run() {
@@ -39,15 +39,6 @@ fn main() {
     )
 }
 
-fn run() -> Result<String> {
-    //DI registration and resolution
-    let app_state = quickstart_template::concurrency_primitives::AppSystemWideSingleton::new();
-    let arch_info = quickstart_template::arch::Arch::new();
-
-    let app = quickstart_template::App::new(&app_state, arch_info)?;
-    app.run()
-}
-
 /// Returns a string listing the causes, if any, of a `Fail`.
 /// Note: [tail call optimization](https://github.com/rust-lang/rfcs/pull/1888) should convert this to a simple loop.
 fn causes(cause: Option<&Fail>) -> String {
@@ -56,3 +47,16 @@ fn causes(cause: Option<&Fail>) -> String {
         Some(err) => format!("  {}: {}\n", MSG_CAUSED_BY, err) + causes(err.cause()).as_str(),
     }
 }
+
+/// "Inner main()" function with a `Result` return type to simplify propagaiton of `Result`s from function calls.
+/// Rust's native main will support `Result` when [RFC1937](https://github.com/rust-lang/rfcs/pull/1937) lands, making
+/// this function unnecessary.
+fn run() -> Result<String> {
+    //DI registration and resolution
+    let app_state = quickstart_template::concurrency_primitives::AppState::new();
+    let arch_info = quickstart_template::arch::Arch::new();
+
+    let app = quickstart_template::App::new(&app_state, arch_info)?;
+    app.run()
+}
+

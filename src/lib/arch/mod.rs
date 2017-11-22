@@ -5,7 +5,7 @@ use galvanic_mock::mockable;
 #[mockable]
 pub trait Info {
     /// # Remarks
-    /// Returns the native width of the current architecture, in bits
+    /// Return the native width of the current architecture, in bits
     fn width(&self) -> usize;
 }
 
