@@ -1,15 +1,29 @@
 use super::*;
 use galvanic_test::*;
 #[allow(unused_imports)] use galvanic_assert::matchers::*;
-use concurrency_primitives::AppState;
+use concurrency_primitives::Singleton;
 
 test_suite! {
     name app_info;
     use super::*;
 
-    fixture info_mock(arch_width: usize) -> mock::InfoMock {
+    fixture app_state_mock() -> mock::AppStateMock {
         setup(&mut self) {
-            let mock = new_mock!(Info for InfoMock);
+            let mock = new_mock!(Singleton for AppStateMock);
+
+            given! {
+                <mock as Singleton>::{
+                    already_initialized any_value() then_return false times 1;
+                    already_initialized any_value() then_return true always;
+                }
+            }
+            mock
+        }
+    }
+
+    fixture arch_mock(arch_width: usize) -> mock::ArchMock {
+        setup(&mut self) {
+            let mock = new_mock!(Info for ArchMock);
 
             given! {
                 bind arch_width: usize = *self.arch_width;
@@ -19,11 +33,10 @@ test_suite! {
         }
     }
 
-    test yields_expected_word_width(info_mock(42)) {
+    test yields_expected_word_width(app_state_mock(), arch_mock(42)) {
         // given
-        let expected_result = format!("Hello, {}-bit world!", info_mock.params.arch_width);
-        let app_state = AppState::new();
-        let subject = App::new(&app_state, info_mock.into_val()).unwrap();
+        let expected_result = format!("Hello, {}-bit world!", arch_mock.params.arch_width);
+        let subject = App::new(&app_state_mock.val, arch_mock.val).unwrap();
 
         // when
         let result = subject.run();
