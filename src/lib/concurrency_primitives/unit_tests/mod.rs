@@ -4,18 +4,25 @@ use galvanic_test::*;
 #[allow(unused_imports)] use galvanic_assert::matchers::*;
 use concurrency_primitives::APP_ALREADY_INITIALIZED;
 
+static GLOBAL_TEST_MUTEX: AtomicBool = AtomicBool::new(false);
+
 test_suite! {
     name app_state;
     use super::*;
 
     fixture app_state() -> AppState {
         setup(&mut self) {
+            // Ensure tests which manipulate app_state (which is backed by static state) never run simultaneously
+            while GLOBAL_TEST_MUTEX.compare_and_swap(false, true, Ordering::Relaxed) {}
+
             AppState::new()
         }
 
         tear_down(&self) {
             // Reset 'static atomic backing store to uninitialized to enable use in multiple tests
-            APP_ALREADY_INITIALIZED.compare_and_swap(true, false, Ordering::SeqCst);
+            APP_ALREADY_INITIALIZED.compare_and_swap(true, false, Ordering::Relaxed);
+
+            while !GLOBAL_TEST_MUTEX.compare_and_swap(true, false, Ordering::Relaxed) {}
         }
     }
 
@@ -55,7 +62,5 @@ test_suite! {
 
         // then ensure captured results contain exactly one uninitialized state
         assert_eq!(results.iter().filter(|v| !**v).count(), 1);
-        // and ensure the uninitialized state was observed on the first access attempt (tests must not be run in parallel)
-        assert!(!results.iter().nth(0).unwrap());
     }
 }

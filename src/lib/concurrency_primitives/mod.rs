@@ -23,7 +23,7 @@ impl AppState {
 
 impl Singleton for AppState {
     fn already_initialized(&self) -> bool {
-        APP_ALREADY_INITIALIZED.compare_and_swap(false, true, Ordering::SeqCst)
+        APP_ALREADY_INITIALIZED.compare_and_swap(false, true, Ordering::Relaxed)
     }
 }
 
