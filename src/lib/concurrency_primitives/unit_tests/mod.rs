@@ -1,8 +1,8 @@
 use super::*;
+use std::thread;
 use galvanic_test::*;
 #[allow(unused_imports)] use galvanic_assert::matchers::*;
 use concurrency_primitives::APP_ALREADY_INITIALIZED;
-use std::thread;
 
 test_suite! {
     name app_state;
@@ -19,7 +19,7 @@ test_suite! {
         }
     }
 
-    test single_threaded_first_call_yield_uninitialized(app_state()) {
+    test first_call_yields_uninitialized_single_threaded(app_state()) {
         // given
         let subject = app_state.val;
 
@@ -27,7 +27,7 @@ test_suite! {
         assert_eq!(subject.already_initialized(), false);
     }
 
-    test single_threaded_calls_after_first_yield_initialized(app_state()) {
+    test calls_after_first_yield_initialized_single_threaded(app_state()) {
         // given
         let subject = app_state.val;
         assert_eq!(subject.already_initialized(), false);
@@ -38,7 +38,7 @@ test_suite! {
         assert_eq!(subject.already_initialized(), true);
     }
 
-    test multi_threaded_yields_uninitialized_exactly_once(app_state()) {
+    test many_calls_yield_uninitialized_exactly_once_multi_threaded(app_state()) {
         // given
         const N_THREADS: usize = 8;
         let subject = app_state.val;
@@ -54,6 +54,8 @@ test_suite! {
                                     .collect::<Vec<_>>();
 
         // then ensure captured results contain exactly one uninitialized state
-        assert_eq!(results.iter().filter(|v| !**v).count(), 1)
+        assert_eq!(results.iter().filter(|v| !**v).count(), 1);
+        // and ensure the uninitialized state was observed on the first access attempt (tests must not be run in parallel)
+        assert!(!results.iter().nth(0).unwrap());
     }
 }
