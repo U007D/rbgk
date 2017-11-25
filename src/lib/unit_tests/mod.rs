@@ -13,8 +13,8 @@ test_suite! {
 
             given! {
                 <mock as Singleton>::{
-                    already_initialized any_value() then_return false times 1;
-                    already_initialized any_value() then_return true always;
+                    already_instantiated any_value() then_return false times 1;
+                    already_instantiated any_value() then_return true always;
                 }
             }
             mock

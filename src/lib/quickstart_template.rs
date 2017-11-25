@@ -55,7 +55,7 @@ impl<T: Info> App<T> {
     /// benefits gained from loose coupling).  Notice that both dependencies can now be mocked, enabling for thorough
     /// unit testing.
     pub fn new<S: Singleton>(app_state: &S, arch_info: T) -> Result<Self> {
-        match app_state.already_initialized() {
+        match app_state.already_instantiated() {
             true => Err(Error::SingletonViolation),
             false => Ok(Self { arch_info }),
         }
