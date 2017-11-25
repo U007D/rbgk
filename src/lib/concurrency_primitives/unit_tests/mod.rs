@@ -1,7 +1,6 @@
 use super::*;
 use std::thread;
 use galvanic_test::*;
-#[allow(unused_imports)] use galvanic_assert::matchers::*;
 use concurrency_primitives::APP_ALREADY_INSTANTIATED;
 
 static GLOBAL_TEST_MUTEX: AtomicBool = AtomicBool::new(false);

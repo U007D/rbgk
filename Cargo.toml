@@ -18,7 +18,7 @@ version = "0.*"
 [dependencies.failure_derive]
 version = "0.*"
 
-[dependencies.galvanic-assert]
+[dependencies.galvanic-assert] # WORKAROUND for bug https://github.com/mindsbackyard/galvanic-mock/issues/1
 version = "*"
 
 [dependencies.galvanic-mock]

@@ -14,7 +14,7 @@
 
 pub extern crate failure;
 #[macro_use] extern crate failure_derive;
-#[allow(useless_attribute, unused_imports)] #[macro_use] extern crate galvanic_assert;
+#[allow(useless_attribute, unused_imports)] #[macro_use] extern crate galvanic_assert;  // WORKAROUND for bug https://github.com/mindsbackyard/galvanic-mock/issues/1
 #[allow(useless_attribute, unused_imports)] #[macro_use] extern crate galvanic_test;
 extern crate galvanic_mock;
 

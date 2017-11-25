@@ -1,6 +1,6 @@
 use super::*;
 use galvanic_test::*;
-#[allow(unused_imports)] use galvanic_assert::matchers::*;
+use galvanic_assert::matchers::*;   // WORKAROUND for bug https://github.com/mindsbackyard/galvanic-mock/issues/1
 use concurrency_primitives::Singleton;
 
 test_suite! {
