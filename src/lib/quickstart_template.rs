@@ -70,7 +70,9 @@ impl<T: Info> App<T> {
     /// # Remarks
     /// This method is the library's primary entry point.
     pub fn run(&self) -> Result<String> {
-        Ok(format!("Hello, {}-bit world!", self.arch_info.width()))
+        self.greet()
     }
+
+    fn greet(&self) -> Result<String> { Ok(format!("Hello, {}-bit world!", self.arch_info.width())) }
 }
 
