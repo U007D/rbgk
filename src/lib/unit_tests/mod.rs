@@ -4,12 +4,12 @@ use galvanic_assert::matchers::*;   // WORKAROUND for bug https://github.com/min
 use concurrency_primitives::Singleton;
 
 test_suite! {
-    name app_info;
+    name system_wide_singleton_mock;
     use super::*;
 
-    fixture app_state_mock() -> mock::AppStateMock {
+    fixture system_wide_singleton_mock() -> mock::SystemWideSingletonMock {
         setup(&mut self) {
-            let mock = new_mock!(Singleton for AppStateMock);
+            let mock = new_mock!(Singleton for SystemWideSingletonMock);
 
             given! {
                 <mock as Singleton>::{
@@ -33,10 +33,10 @@ test_suite! {
         }
     }
 
-    test yields_expected_word_width(app_state_mock(), arch_mock(42)) {
+    test yields_expected_word_width(system_wide_singleton_mock(), arch_mock(42)) {
         // given
         let expected_result = format!("Hello, {}-bit world!", arch_mock.params.arch_width);
-        let subject = App::new(&app_state_mock.val, arch_mock.val).unwrap();
+        let subject = App::new(&system_wide_singleton_mock.val, &arch_mock.val).unwrap();
 
         // when
         let result = subject.run();
