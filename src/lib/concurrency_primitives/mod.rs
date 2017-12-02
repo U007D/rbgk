@@ -3,8 +3,7 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 use galvanic_mock::mockable;
 
-// Concurrency primitive store for AppSystemWideSingleton
-static APP_ALREADY_INSTANTIATED: AtomicBool = AtomicBool::new(false);
+static SYSTEM_WIDE_SINGLETON_SENTINEL: AtomicBool = AtomicBool::new(false);
 
 #[mockable]
 pub trait Singleton {
@@ -15,15 +14,15 @@ pub trait Singleton {
 }
 
 #[derive(Default, Debug, PartialEq, PartialOrd, Copy, Clone)]
-pub struct AppState;
+pub struct SystemWideSingleton;
 
-impl AppState {
+impl SystemWideSingleton {
     pub fn new() -> Self { Self {} }
 }
 
-impl Singleton for AppState {
+impl Singleton for SystemWideSingleton {
     fn already_instantiated(&self) -> bool {
-        APP_ALREADY_INSTANTIATED.compare_and_swap(false, true, Ordering::Relaxed)
+        SYSTEM_WIDE_SINGLETON_SENTINEL.compare_and_swap(false, true, Ordering::Relaxed)
     }
 }
 

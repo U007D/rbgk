@@ -14,10 +14,10 @@ extern crate quickstart_template;
 extern crate libc;
 
 use std::io::{self, Write};
+use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 
 use quickstart_template::failure::Fail as Fail;
 use quickstart_template::consts::*;
-use libc::{EXIT_SUCCESS, EXIT_FAILURE};
 
 type Result<T> = std::result::Result<T, quickstart_template::Error>;
 
@@ -48,15 +48,40 @@ fn causes(cause: Option<&Fail>) -> String {
     }
 }
 
-/// "Inner main()" function with a `Result` return type to simplify propagaiton of `Result`s from function calls.
+/// "Inner main()" function with a `Result` return type to simplify propagation of `Result`s from function calls.
 /// Rust's native main will support `Result` when [RFC1937](https://github.com/rust-lang/rfcs/pull/1937) lands, making
 /// this function unnecessary.
 fn run() -> Result<String> {
-    //DI registration and resolution
-    let app_state = quickstart_template::concurrency_primitives::AppState::new();
-    let arch_info = quickstart_template::arch::Arch::new();
-
-    let app = quickstart_template::App::new(&app_state, arch_info)?;
-    app.run()
+    let container = di::Container::build(); // TODO: Determine if `code_gen` `registration` can `build()` the `Container` and own the instance
+    quickstart_template::App::new(
+            container.resolve_ref_concurrency_primitives_singleton(),
+            container.resolve_ref_arch_info())?
+        .run()
 }
 
+// TODO: Auto-generate `Container` using `di::registration` module and `code_gen`.
+mod di {
+    use quickstart_template::{self, concurrency_primitives, arch};
+
+    pub struct Container {
+        concurrency_primitives_system_wide_singleton: concurrency_primitives::SystemWideSingleton,
+        arch_info: arch::Arch,
+    }
+
+    impl Container {
+        pub fn build() -> Self {
+            Self {
+                concurrency_primitives_system_wide_singleton: quickstart_template::concurrency_primitives::SystemWideSingleton::new(),
+                arch_info: quickstart_template::arch::Arch::new(),
+            }
+        }
+
+        pub fn resolve_ref_concurrency_primitives_singleton(&self) -> &concurrency_primitives::SystemWideSingleton {
+            &self.concurrency_primitives_system_wide_singleton
+        }
+
+        pub fn resolve_ref_arch_info(&self) -> &arch::Arch {
+            &self.arch_info
+        }
+    }
+}

@@ -33,11 +33,11 @@ use arch::Info;
 type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct App<T: Info> {
-    arch_info: T,
+pub struct App<'a, T: 'a + Info> {
+    arch_info: &'a T,
 }
 
-impl<T: Info> App<T> {
+impl<'a, T: 'a + Info> App<'a, T> {
     /// # Returns
     /// Application instance upon successful initialization.
     ///
@@ -49,13 +49,15 @@ impl<T: Info> App<T> {
     /// `Fail::Error`) at the caller's discretion.
     ///
     /// # Remarks
-    /// Employs constructor dependency injection for loose coupling of the singleton management instance (this enables
-    /// downgrading or upgrading the concurrency primitive to local thread or across multiple distinct systems, for
-    /// example, without changing App's implementation at all) and the architecture's address width (again, for the
-    /// benefits gained from loose coupling).  Notice that both dependencies can now be mocked, enabling for thorough
-    /// unit testing.
-    pub fn new<S: Singleton>(app_state: &S, arch_info: T) -> Result<Self> {
-        match app_state.already_instantiated() {
+    /// Employs static constructor dependency injection for loose coupling of the singleton management instance (this
+    /// enables downgrading the concurrency primitive to, local thread scope or upgrading it to function across multiple
+    /// distinct system instances (e.g. horizontal scale cloud computing), for example, without changing App's
+    /// implementation at all).
+    /// Injected dependencies can now be mocked, enabling for more thorough unit testing.
+    /// Note that injected dependencies are static (i.e. NOT trait objects), and as such, method calls are resolved at
+    /// compile-time (i.e. by using monomorphization, we avoid paying the runtime cost of virtual dispatch).
+    pub fn new<S: Singleton>(singleton_sentinel: &S, arch_info: &'a T) -> Result<Self> {
+        match singleton_sentinel.already_instantiated() {
             true => Err(Error::SingletonViolation),
             false => Ok(Self { arch_info }),
         }
