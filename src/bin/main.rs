@@ -32,20 +32,14 @@ fn main() {
                 EXIT_SUCCESS
             },
             Err(ref err) => {
-                writeln!(&mut io::stderr(), "{}: {}", MSG_ERROR, causes(err.cause())).expect(MSG_ERR_WRITING_STDERR);
+                writeln!(&mut io::stderr(), "{}: {}", MSG_ERROR,
+                         err.causes()
+                            .fold(String::new(), |acc, cause| acc + &format!("  {}: {}\n", MSG_CAUSED_BY, cause)))
+                    .expect(MSG_ERR_WRITING_STDERR);
                 EXIT_FAILURE
             },
         }
     )
-}
-
-/// Returns a string listing the causes, if any, of a `Fail`.
-/// Note: [tail call optimization](https://github.com/rust-lang/rfcs/pull/1888) should convert this to a simple loop.
-fn causes(cause: Option<&Fail>) -> String {
-    match cause {
-        None => String::new(),
-        Some(err) => format!("  {}: {}\n", MSG_CAUSED_BY, err) + causes(err.cause()).as_str(),
-    }
 }
 
 /// "Inner main()" function with a `Result` return type to simplify propagation of `Result`s from function calls.
