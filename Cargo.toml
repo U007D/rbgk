@@ -8,6 +8,10 @@ doc = false
 name = "quickstart_template"
 path = "src/bin/main.rs"
 test = false
+
+[dev-dependencies.pretty_assertions]
+version = "*"
+
 [dependencies.clippy]
 optional = true
 version = "*"
@@ -18,7 +22,7 @@ version = "0.*"
 [dependencies.failure_derive]
 version = "0.*"
 
-[dependencies.galvanic-assert] # WORKAROUND for bug https://github.com/mindsbackyard/galvanic-mock/issues/1
+[dependencies.galvanic-assert]
 version = "*"
 
 [dependencies.galvanic-mock]
