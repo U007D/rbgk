@@ -17,7 +17,7 @@ if [[ ${#} -lt 1 ]] || [[ ${#} -gt 2 ]]; then
 fi
 
 DEFAULT_PROJ_NAME="quickstart_template"
-GITHUB_URL_BASE="github:U-007D/"
+GITHUB_URL_BASE="github:U007D/"
 
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -execdir rename "s/${DEFAULT_PROJ_NAME}/${1}/g" '{}' \+
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -type f -exec sed -Ei "s/${DEFAULT_PROJ_NAME}/${1}/g" "{}" \;
