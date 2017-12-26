@@ -1,8 +1,5 @@
 #[cfg(test)] mod unit_tests;
 
-use galvanic_mock::mockable;
-
-#[mockable]
 pub trait Info {
     /// # Remarks
     /// Return the native width of the current architecture, in bits

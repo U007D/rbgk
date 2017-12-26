@@ -12,22 +12,16 @@
         wrong_pub_self_convention)]
 #![deny(overflowing_literals, unused_must_use)]
 
-pub extern crate failure;
-#[macro_use] extern crate failure_derive;
-#[allow(useless_attribute, unused_imports)] #[macro_use] extern crate galvanic_assert;  // WORKAROUND for bug https://github.com/mindsbackyard/galvanic-mock/issues/1
-#[allow(useless_attribute, unused_imports)] #[macro_use] extern crate galvanic_test;
-extern crate galvanic_mock;
+#[macro_use] pub extern crate failure;
+extern crate polish;
 
 #[cfg(test)] mod unit_tests;
 pub mod consts;
 mod error;
-pub mod concurrency_primitives;
 pub mod arch;
 
 pub use error::Error;
-#[allow(unused_imports)] use failure::ResultExt;
 #[allow(unused_imports)] use consts::*;
-use concurrency_primitives::Singleton;
 use arch::Info;
 
 type Result<T> = std::result::Result<T, Error>;
@@ -56,11 +50,8 @@ impl<'a, T: 'a + Info> App<'a, T> {
     /// Injected dependencies can now be mocked, enabling for more thorough unit testing.
     /// Note that injected dependencies are static (i.e. NOT trait objects), and as such, method calls are resolved at
     /// compile-time (i.e. by using monomorphization, we avoid paying the runtime cost of virtual dispatch).
-    pub fn new<S: Singleton>(singleton_sentinel: &S, arch_info: &'a T) -> Result<Self> {
-        match singleton_sentinel.already_instantiated() {
-            true => Err(Error::SingletonViolation),
-            false => Ok(Self { arch_info }),
-        }
+    pub fn new(arch_info: &'a T) -> Self {
+        Self { arch_info }
     }
 
     /// # Returns

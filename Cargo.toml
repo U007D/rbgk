@@ -9,8 +9,8 @@ name = "quickstart_template"
 path = "src/bin/main.rs"
 test = false
 
-[dev-dependencies.pretty_assertions]
-version = "*"
+[dependencies.polish]
+git = "https://github.com/alkass/polish"
 
 [dependencies.clippy]
 optional = true
@@ -19,29 +19,19 @@ version = "*"
 [dependencies.failure]
 version = "0.*"
 
-[dependencies.failure_derive]
-version = "0.*"
-
-[dependencies.galvanic-assert]
-version = "*"
-
-[dependencies.galvanic-mock]
-features = ["galvanic_assert_integration"]
-version = "*"
-
-[dependencies.galvanic-test]
-features = ["galvanic_mock_integration"]
-version = "*"
-
 [dependencies.libc]
 version = "~0"
+
+[dev-dependencies.pretty_assertions]
+version = "*"
 
 [features]
 default = ["clippy"]
 
 [lib]
 name = "quickstart_template"
-path = "src/lib/quickstart_template.rs"
+path = "src/lib.rs"
+
 [profile.bench]
 codegen-units = 1
 debug = false
