@@ -18,40 +18,25 @@ extern crate polish;
 #[cfg(test)] mod unit_tests;
 pub mod consts;
 mod error;
-pub mod arch;
 
 pub use error::Error;
 #[allow(unused_imports)] use consts::*;
-use arch::Info;
-
 type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct App<'a, T: 'a + Info> {
-    arch_info: &'a T,
+pub struct App {
+    args: Vec<String>,
+    arch_width: usize,
 }
 
-impl<'a, T: 'a + Info> App<'a, T> {
+impl App {
     /// # Returns
     /// Application instance upon successful initialization.
-    ///
-    /// /// # Errors
-    /// Returns an error in the event that any unhandled errors arise during initialization.  Prevents application from
-    /// being instantiated more than once.
-    /// Rather than returning general, type-erased `Box<std::error::Error>`s or downcastable `Fail::Error`s, `run()`
-    /// returns a strongly typed `self::error::Error` which can be exhaustively matched or type-erased (coerced into a
-    /// `Fail::Error`) at the caller's discretion.
-    ///
-    /// # Remarks
-    /// Employs static constructor dependency injection for loose coupling of the singleton management instance (this
-    /// enables downgrading the concurrency primitive to, local thread scope or upgrading it to function across multiple
-    /// distinct system instances (e.g. horizontal scale cloud computing), for example, without changing App's
-    /// implementation at all).
-    /// Injected dependencies can now be mocked, enabling for more thorough unit testing.
-    /// Note that injected dependencies are static (i.e. NOT trait objects), and as such, method calls are resolved at
-    /// compile-time (i.e. by using monomorphization, we avoid paying the runtime cost of virtual dispatch).
-    pub fn new(arch_info: &'a T) -> Self {
-        Self { arch_info }
+    pub fn new(args: Vec<String>, arch_width: usize) -> Self {
+        Self {
+            args,
+            arch_width,
+        }
     }
 
     /// # Returns
@@ -66,6 +51,6 @@ impl<'a, T: 'a + Info> App<'a, T> {
         self.greet()
     }
 
-    fn greet(&self) -> Result<String> { Ok(format!("Hello, {}-bit world!", self.arch_info.width())) }
+    fn greet(&self) -> Result<String> { Ok(format!("Hello, {}-bit world!", self.arch_width)) }
 }
 

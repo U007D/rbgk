@@ -16,7 +16,7 @@ if [[ ${#} -lt 1 ]] || [[ ${#} -gt 2 ]]; then
 	exit 1
 fi
 
-DEFAULT_PROJ_NAME="quickstart_template"
+DEFAULT_PROJ_NAME="qst"
 GITHUB_URL_BASE="github:U007D/"
 
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -execdir rename "s/${DEFAULT_PROJ_NAME}/${1}/g" '{}' \+

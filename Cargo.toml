@@ -1,7 +1,7 @@
 [package]
 authors = ["Brad Gibson"]
-name = "quickstart_template"
-version = "0.1.0"
+name = "qst"
+version = "6.0.0"
 
 [[bin]]
 doc = false
@@ -27,9 +27,10 @@ version = "*"
 
 [features]
 default = ["clippy"]
+test = []
 
 [lib]
-name = "quickstart_template"
+name = "qst"
 path = "src/lib.rs"
 
 [profile.bench]

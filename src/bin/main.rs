@@ -1,4 +1,3 @@
-#![feature(use_nested_groups)]
 #![cfg_attr(feature="clippy", feature(plugin))] //nightly rustc required by `clippy`
 #![cfg_attr(feature="clippy", plugin(clippy))]
 #![allow(match_bool)] //disable false positives
@@ -11,47 +10,29 @@
         unseparated_literal_suffix, /*use_debug,*/ use_self, used_underscore_binding, unused_import_braces,
         unnecessary_mut_passed, unused_qualifications, wrong_pub_self_convention)]
 #![deny(overflowing_literals, unused_must_use)]
+#![feature(termination_trait)]
 
 pub extern crate failure;
-extern crate quickstart_template;
+extern crate qst;
 extern crate libc;
 
 mod di;
 
-use std::io::{self, Write};
-use libc::{EXIT_SUCCESS, EXIT_FAILURE};
-use quickstart_template::consts::*;
+use di::Container;
 
 type Result<T> = std::result::Result<T, failure::Error>;
 
-/// This crate is structured as a library with `bin/main.rs` defining a small, optional command-line application driver.
-/// Use `cargo run` to invoke this entry point which will return the crate's main library entry point's (`run()`) result
-/// or returned errors, if any.
-fn main() {
-    std::process::exit(
-        match run() {
-            Ok(ref msg) => {
-                writeln!(&mut io::stdout(), "{}", msg).expect(MSG_ERR_WRITING_STDOUT);
-                EXIT_SUCCESS
-            },
-            Err(ref err) => {
-                writeln!(&mut io::stderr(), "{}: {}", MSG_ERROR,
-                         err.causes()
-                            .fold(String::new(), |acc, cause| acc + &format!("  {}: {}\n", MSG_CAUSED_BY, cause)))
-                    .expect(MSG_ERR_WRITING_STDERR);
-                EXIT_FAILURE
-            },
-        }
-    )
-}
-
-/// "Inner main()" function with a `Result` return type to simplify propagation of `Result`s from function calls.
-/// Rust's native main will support `Result` when [RFC1937](https://github.com/rust-lang/rfcs/pull/1937) lands, making
-/// this function unnecessary.
-fn run() -> Result<String> {
-    let container = di::Container::build(); // TODO: Determine if `code_gen` `registration` can `build()` the `Container` and own the instance
-    Ok(quickstart_template::App::new(/*
-            container.resolve_ref_concurrency_primitives_singleton(),*/
-            container.resolve_ref_arch_info())
-        .run()?)
+/// Invoke the crate's library's main entry point, passing along supplied command-line arguments (if any) converted to
+/// valid UTF-8.
+///
+/// This sample code uses a dependency injection container and employs the builder pattern as an outline for a large
+/// application.
+/// # Error
+/// The first argument encountered that cannot be converted to valid UTF-8 will exit the app with an error.
+/// `Err`s returned by `run()` will cause the app to exit displaying the error.
+fn main() -> Result<()> {
+    println!("{}", Container::build()
+                             .resolve_app()?
+                             .run()?);
+    Ok(())
 }
