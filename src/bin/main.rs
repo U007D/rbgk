@@ -27,12 +27,12 @@ type Result<T> = std::result::Result<T, failure::Error>;
 ///
 /// This sample code uses a dependency injection container and employs the builder pattern as an outline for a large
 /// application.
+///
 /// # Error
 /// The first argument encountered that cannot be converted to valid UTF-8 will exit the app with an error.
 /// `Err`s returned by `run()` will cause the app to exit displaying the error.
 fn main() -> Result<()> {
-    println!("{}", Container::build()
-                             .resolve_app()?
-                             .run()?);
+    let app = Container::build().resolve_app()?;
+    println!("{}", app.run()?);
     Ok(())
 }
