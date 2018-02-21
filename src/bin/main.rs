@@ -32,7 +32,8 @@ type Result<T> = std::result::Result<T, failure::Error>;
 /// The first argument encountered that cannot be converted to valid UTF-8 will exit the app with an error.
 /// `Err`s returned by `run()` will cause the app to exit displaying the error.
 fn main() -> Result<()> {
-    let app = Container::build().resolve_app()?;
-    println!("{}", app.run()?);
+    println!("{}",  Container::build()
+                              .resolve_app()?
+                              .run()?);
     Ok(())
 }
