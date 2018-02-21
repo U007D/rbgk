@@ -29,10 +29,11 @@ type Result<T> = std::result::Result<T, failure::Error>;
 /// application.
 ///
 /// # Error
-/// The first argument encountered that cannot be converted to valid UTF-8 will exit the app with an error.
-/// `Err`s returned by `run()` will cause the app to exit displaying the error.
+/// Errors returned by `resolve_app()` (e.g. invalid UTF-8 in supplied argument) will cause the app to exit, displaying
+/// the error.
+/// `Err`s returned by `run()` will cause the app to exit, displaying the error.
 fn main() -> Result<()> {
-    println!("{}",  Container::build()
+    println!("{}",  Container::new()
                               .resolve_app()?
                               .run()?);
     Ok(())

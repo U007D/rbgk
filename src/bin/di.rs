@@ -18,7 +18,7 @@ type Result<T> = std::result::Result<T, Error>;
 pub struct Container {}
 
 impl Container {
-    pub fn build() -> Self {
+    pub fn new() -> Self {
             Self {}
     }
 
