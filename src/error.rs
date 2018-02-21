@@ -12,7 +12,7 @@ pub enum Error {
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", match *self {
-            Error::ArgInvalidUtf8(_) => MSG_ERR_ARG_INVALID_UTF8,
+            Error::ArgInvalidUtf8(ref arg) => format!("{}: {:?}", MSG_ERR_ARG_INVALID_UTF8, arg),
         })
     }
 }

@@ -1,6 +1,6 @@
-#![cfg_attr(feature="clippy", feature(plugin))] //nightly rustc required by `clippy`
-#![cfg_attr(feature="clippy", plugin(clippy))]
-#![allow(match_bool)] //disable false positives
+#![cfg_attr(feature = "clippy", feature(plugin))] //nightly rustc required by `clippy`
+#![cfg_attr(feature = "clippy", plugin(clippy))]
+#![allow(match_bool, unit_arg)] //disable false positives
 #![warn(cast_possible_truncation, cast_possible_wrap, cast_precision_loss, cast_sign_loss, empty_enum, enum_glob_use,
         fallible_impl_from, filter_map, if_not_else, int_plus_one, invalid_upcast_comparisons, maybe_infinite_iter,
         mem_forget, missing_debug_implementations, mut_mut, mutex_integer, nonminimal_bool, option_map_unwrap_or,
@@ -33,8 +33,9 @@ type Result<T> = std::result::Result<T, failure::Error>;
 /// the error.
 /// `Err`s returned by `run()` will cause the app to exit, displaying the error.
 fn main() -> Result<()> {
-    println!("{}",  Container::new()
-                              .resolve_app()?
-                              .run()?);
-    Ok(())
+    Ok(
+        Container::new()
+                 .resolve_app()?
+                 .run()?
+    )
 }
