@@ -5,7 +5,7 @@ version = "6.0.0"
 
 [[bin]]
 doc = false
-name = "quickstart_template"
+name = "qst"
 path = "src/bin/main.rs"
 test = false
 
