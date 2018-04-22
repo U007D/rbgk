@@ -10,19 +10,19 @@ trivial_casts, non_camel_case_types, stutter, trivial_numeric_casts, unicode_not
 unseparated_literal_suffix, /*use_debug,*/ use_self, used_underscore_binding, unused_import_braces,
 unnecessary_mut_passed, unused_qualifications, wrong_pub_self_convention)]
 #![deny(overflowing_literals, unused_must_use)]
-#![feature(try_trait, integer_atomics)]
 
 extern crate qst;
 
-use qst::di::Container;
-use qst::greeter::Greeter;
-use qst::Result;
-use std::env;
+use qst::{di::Container, greeter::Greeter, Result};
+
+fn args() -> Result<Vec<String>> {
+    Ok(std::env::args_os()
+                .map(|oss| oss.into_string())
+                .collect::<std::result::Result<Vec<_>, _>>()?)
+}
 
 fn main() -> Result<()> {
     println!("{}", Container::resolve_greeter()
-                             .greet(env::args_os()
-                                        .map(|oss| oss.into_string())
-                                        .collect::<std::result::Result<Vec<_>, _>>()?));
+                             .greet(args()?));
     Ok(())
 }
