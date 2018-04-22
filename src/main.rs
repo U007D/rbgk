@@ -13,16 +13,6 @@ unnecessary_mut_passed, unused_qualifications, wrong_pub_self_convention)]
 
 extern crate qst;
 
-use qst::{di::Container, greeter::Greeter, Result};
-
-fn args() -> Result<Vec<String>> {
-    Ok(std::env::args_os()
-                .map(|oss| oss.into_string())
-                .collect::<std::result::Result<Vec<_>, _>>()?)
-}
-
-fn main() -> Result<()> {
-    println!("{}", Container::resolve_greeter()
-                             .greet(args()?));
-    Ok(())
+fn main() {
+    println!("Hello, world!");
 }

@@ -14,20 +14,8 @@ unnecessary_mut_passed, unused_qualifications, wrong_pub_self_convention)]
 
 #[macro_use]
 extern crate failure;
+#[cfg(test)]
+extern crate rspec;
 
-mod consts;
-pub mod di;
-pub mod error;
-pub mod greeter;
-mod hello_world_greeter;
-mod universal_width_provider;
-mod width_provider;
-
-use consts::*;
-pub use error::Error;
-use greeter::Greeter;
-use hello_world_greeter::HelloWorldGreeter;
-use universal_width_provider::UniversalWidthProvider;
-use width_provider::WidthProvider;
-
-pub type Result<T> = std::result::Result<T, Error>;
+#[cfg(test)]
+mod unit_tests;
