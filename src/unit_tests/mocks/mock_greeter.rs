@@ -1,4 +1,3 @@
-use std::sync::atomic::{AtomicUsize, Ordering};
 use super::*;
 
 pub struct MockGreeter {
@@ -17,4 +16,3 @@ impl Greeter for MockGreeter {
         String::from("Hello, this is a test greeting.")
     }
 }
-

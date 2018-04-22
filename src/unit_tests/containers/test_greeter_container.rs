@@ -1,4 +1,4 @@
-use self::mock_greeter::MockGreeter;
+use self::mocks::MockGreeter;
 use super::*;
 
 pub struct TestGreeterContainer {}
