@@ -1,37 +1,24 @@
 [package]
-authors = ["Brad Gibson"]
+authors = ["bRad <brad@humanenginuity.com>"]
 name = "qst"
-version = "6.0.0"
-
-[[bin]]
-doc = false
-name = "qst"
-path = "src/bin/main.rs"
-test = false
-
-[dependencies.polish]
-git = "https://github.com/alkass/polish"
-
-[dependencies.clippy]
-optional = true
-version = "*"
-
-[dependencies.failure]
-version = "0.*"
-
-[dependencies.libc]
-version = "~0"
-
-[dev-dependencies.pretty_assertions]
-version = "*"
-
-[features]
-default = ["clippy"]
-test = []
+version = "0.1.0"
 
 [lib]
 name = "qst"
 path = "src/lib.rs"
+
+[[bin]]
+doc = false
+name = "qst"
+path = "src/main.rs"
+test = false
+
+[dependencies]
+failure = "*"
+
+[dependencies.clippy]
+optional = true
+version = "*"
 
 [profile.bench]
 codegen-units = 1
@@ -77,5 +64,3 @@ lto = false
 opt-level = 0
 panic = "unwind"
 rpath = false
-
-[workspace]

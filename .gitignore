@@ -3,3 +3,6 @@
 cmake-build-*/
 .idea/*
 CMakeLists.txt
+
+/target
+**/*.rs.bk

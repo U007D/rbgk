@@ -10,20 +10,16 @@ trivial_casts, non_camel_case_types, stutter, trivial_numeric_casts, unicode_not
 unseparated_literal_suffix, /*use_debug,*/ use_self, used_underscore_binding, unused_import_braces,
 unnecessary_mut_passed, unused_qualifications, wrong_pub_self_convention)]
 #![deny(overflowing_literals, unused_must_use)]
-#![feature(try_trait, integer_atomics, associated_type_defaults)]
+#![feature(try_trait, integer_atomics)]
 
-extern crate failure;
+extern crate qst;
 
-pub mod greeter;
-pub mod di;
-mod hello_world_greeter;
-mod width_provider;
-mod universal_width_provider;
+use qst::di::Container;
+use qst::greeter::Greeter;
+use qst::Result;
 
-pub use failure::Error as QstError;
-use greeter::Greeter;
-use hello_world_greeter::HelloWorldGreeter;
-use width_provider::WidthProvider;
-use universal_width_provider::UniversalWidthProvider;
-
-pub type Result<T> = std::result::Result<T, QstError>;
+fn main() -> Result<()> {
+    println!("{}", Container::resolve_greeter()
+                             .greet());
+    Ok(())
+}
