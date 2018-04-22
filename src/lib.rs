@@ -18,9 +18,11 @@ extern crate failure;
 extern crate rspec;
 extern crate hesl;
 
+mod di_container;
+mod greeter;
 #[cfg(test)]
 mod unit_tests;
-mod greeter;
 
+pub use di_container::DiContainer;
 pub use greeter::Greeter;
 
