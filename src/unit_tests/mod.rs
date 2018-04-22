@@ -1,12 +1,13 @@
 extern crate hesl;
 
 mod mocks;
-mod containers;
+mod di_containers;
 
 use hesl::macros::assert;
 use rspec::{given, run};
-use self::containers::{TestGreeterContainer, TestWidthProviderContainer};
-use self::greeter::WidthProvider;
+use di_containers::DiContainer;
+use self::di_containers::{TestGreeterContainer, TestWidthProviderContainer};
+use self::greeter::{Greeter, WidthProvider};
 use std::sync::atomic::Ordering;
 use super::*;
 

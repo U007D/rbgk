@@ -1,3 +1,4 @@
+use di_containers::DiContainer;
 use self::mocks::MockGreeter;
 use super::*;
 

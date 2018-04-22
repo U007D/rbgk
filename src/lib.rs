@@ -18,11 +18,16 @@ extern crate failure;
 extern crate rspec;
 extern crate hesl;
 
-mod di_container;
+mod consts;
+mod di_containers;
+mod error;
 mod greeter;
 #[cfg(test)]
 mod unit_tests;
 
-pub use di_container::DiContainer;
+use consts::*;
+pub use di_containers::GreeterContainer;
+pub use error::Error;
 pub use greeter::Greeter;
 
+pub type Result<T> = std::result::Result<T, Error>;

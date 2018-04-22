@@ -1,3 +1,4 @@
+use di_containers::DiContainer;
 use self::mocks::MockWidthProvider;
 use super::*;
 

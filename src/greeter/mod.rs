@@ -1,8 +1,9 @@
+mod hello_world_greeter;
 mod width_provider;
 
-pub use self::width_provider::WidthProvider;
+pub use self::hello_world_greeter::HelloWorldGreeter;
+pub use self::width_provider::{BitWidthProvider, WidthProvider};
 
 pub trait Greeter {
-    fn new() -> Self;
-    fn greet(&self) -> String;
+    fn greet(&self, args: Vec<String>) -> String;
 }
