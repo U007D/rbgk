@@ -16,6 +16,11 @@ unnecessary_mut_passed, unused_qualifications, wrong_pub_self_convention)]
 extern crate failure;
 #[cfg(test)]
 extern crate rspec;
+extern crate hesl;
 
 #[cfg(test)]
 mod unit_tests;
+mod greeter;
+
+pub use greeter::Greeter;
+
