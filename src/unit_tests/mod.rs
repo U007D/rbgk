@@ -1,5 +1,7 @@
 extern crate hesl;
 
+mod mock_greeter;
+
 use hesl::macros::assert;
 use rspec::{given, run};
 #[allow(unused_imports)]
