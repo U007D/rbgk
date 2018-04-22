@@ -17,9 +17,12 @@ extern crate qst;
 use qst::di::Container;
 use qst::greeter::Greeter;
 use qst::Result;
+use std::env;
 
 fn main() -> Result<()> {
     println!("{}", Container::resolve_greeter()
-                             .greet());
+                             .greet(env::args_os()
+                                        .map(|oss| oss.into_string())
+                                        .collect::<std::result::Result<Vec<_>, _>>()?));
     Ok(())
 }

@@ -12,18 +12,22 @@ unnecessary_mut_passed, unused_qualifications, wrong_pub_self_convention)]
 #![deny(overflowing_literals, unused_must_use)]
 #![feature(try_trait, integer_atomics, associated_type_defaults)]
 
+#[macro_use]
 extern crate failure;
 
-pub mod greeter;
+mod consts;
 pub mod di;
+pub mod error;
+pub mod greeter;
 mod hello_world_greeter;
-mod width_provider;
 mod universal_width_provider;
+mod width_provider;
 
-pub use failure::Error as QstError;
+use consts::*;
+pub use error::Error;
 use greeter::Greeter;
 use hello_world_greeter::HelloWorldGreeter;
-use width_provider::WidthProvider;
 use universal_width_provider::UniversalWidthProvider;
+use width_provider::WidthProvider;
 
-pub type Result<T> = std::result::Result<T, QstError>;
+pub type Result<T> = std::result::Result<T, Error>;

@@ -2,7 +2,7 @@ use std::mem::size_of;
 
 use width_provider::WidthProvider;
 
-#[derive(Clone, Debug, Hash, PartialEq, PartialOrd)]
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub struct UniversalWidthProvider {}
 
 impl WidthProvider for UniversalWidthProvider {
