@@ -11,7 +11,7 @@ impl DiContainer for GreeterContainer {
 }
 
 impl GreeterContainer {
-    pub fn resolve_greeter() -> HelloWorldGreeter<BitWidthProvider> {
+    pub fn resolve_greeter(&self) -> HelloWorldGreeter<BitWidthProvider> {
         HelloWorldGreeter::new(BitWidthProvider::new())
     }
 }
