@@ -24,6 +24,7 @@ mod error;
 mod greeter;
 #[cfg(test)]
 mod unit_tests;
+mod width_provider;
 
 use consts::*;
 pub use di_containers::GreeterContainer;

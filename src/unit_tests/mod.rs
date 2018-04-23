@@ -1,12 +1,12 @@
 extern crate hesl;
 
 mod mocks;
-mod di_containers;
+mod test_containers;
 
 use hesl::macros::assert;
 use rspec::{given, run};
 use di_containers::DiContainer;
-use self::di_containers::{TestGreeterContainer, TestWidthProviderContainer};
+use self::test_containers::{TestGreeterContainer, TestWidthProviderContainer};
 use self::greeter::{Greeter, WidthProvider};
 use std::sync::atomic::Ordering;
 use super::*;
@@ -20,7 +20,7 @@ fn tests() {
 
         ctx.when("resolved and greet() is called", |ctx| {
             let greeter = container.resolve_greeter();
-            let result = greeter.greet();
+            let result = greeter.greet(Vec::new());
 
             ctx.then("the MockGreeter should show that greet() was called exactly once", move |_| {
                 assert!(greeter.greet_times_called.load(Ordering::Relaxed) == greet_expected_times_called);
