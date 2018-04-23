@@ -199,7 +199,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "hesl"
 version = "0.1.1"
-source = "git+ssh://git@github.com/humanenginuity/hesl#ed993e4c2dd398a6b06a3a3432efe3108683a1a0"
+source = "git+ssh://git@github.com/humanenginuity/hesl#cec32a360d63a59ec1f3de7243d083e4c7916828"
 dependencies = [
  "clippy 0.0.195 (registry+https://github.com/rust-lang/crates.io-index)",
  "failure 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",

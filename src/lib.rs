@@ -10,12 +10,15 @@ trivial_casts, non_camel_case_types, stutter, trivial_numeric_casts, unicode_not
 unseparated_literal_suffix, /*use_debug,*/ use_self, used_underscore_binding, unused_import_braces,
 unnecessary_mut_passed, unused_qualifications, wrong_pub_self_convention)]
 #![deny(overflowing_literals, unused_must_use)]
-#![feature(try_trait, associated_type_defaults)]
+#![feature(try_trait, associated_type_defaults, use_extern_macros)]
 
 #[macro_use]
 extern crate failure;
 #[cfg(test)]
 extern crate rspec;
+
+#[cfg(test)]
+#[macro_use]
 extern crate hesl;
 
 mod consts;
@@ -27,7 +30,7 @@ mod unit_tests;
 mod width_provider;
 
 use consts::*;
-pub use di_containers::GreeterContainer;
+pub use di_containers::{DiContainer, GreeterContainer};
 pub use error::Error;
 pub use greeter::Greeter;
 
