@@ -19,7 +19,7 @@ hesl = { git = "ssh://git@github.com/humanenginuity/hesl" }
 
 [dependencies.clippy]
 optional = true
-version = "0.0.195"
+version = "0.0.196"
 
 [dev-dependencies]
 rspec = "1.0.0-beta.4"
@@ -30,7 +30,7 @@ debug = false
 debug-assertions = false
 lto = true
 opt-level = 3
-panic = "unwind"
+#panic = "unwind" #panic = "unwind" required by bench harness; panic setting is ignored
 rpath = false
 
 [profile.dev]
@@ -66,5 +66,5 @@ debug = 2
 debug-assertions = true
 lto = false
 opt-level = 0
-panic = "unwind"
+#panic = "unwind" #panic = "unwind" required by bench harness; panic setting is ignored
 rpath = false
