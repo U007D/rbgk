@@ -18,17 +18,9 @@ fi
 
 ORIG_PROJ_NAME=$(grep -Em 1 "name\s*=" Cargo.toml | sed -E "s/^name\s*=\s*\"(.*)\"$/\1/")
 
-git >/dev/null stash save "rename_project"
-
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -execdir rename "s/${ORIG_PROJ_NAME}/${1}/g" '{}' \+
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -type f -exec sed -Ei "s/${ORIG_PROJ_NAME}/${1}/g" "{}" \;
-#git add -A .
-#git add -f ./.idea
-git >/dev/null commit -am "Renamed project to ${1}.  Remember to `git remote set-url origin xxx.git`, if applicable."
-#git >/dev/null rm -r --cached ./.idea
-#git >/dev/null commit -am "Removed CLion workspace configuration tracking"
-#git remote set-url origin "${GITHUB_URL_BASE}${1}.git"
 
-#if [[ "${2}" == "-l" ]]; then
-#	echo "Launch"
-#fi
+git >/dev/null commit -am "Renamed project to ${1}."
+
+echo "Project renamed to ${1}. Remember to `git remote set-url origin repo_url:username/{$1}.git`, if applicable."
