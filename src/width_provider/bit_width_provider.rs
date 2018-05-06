@@ -1,3 +1,4 @@
+use consts::*;
 use std::mem::size_of;
 use super::*;
 
@@ -12,6 +13,7 @@ impl WidthProvider for BitWidthProvider {
     }
 
     fn width(&self) -> usize {
-        size_of::<usize>() * BITS_PER_BYTE
+        size_of::<usize>().checked_mul(BITS_PER_BYTE)
+                          .expect(MSG_ERR_INTERNAL_ARCH_WIDTH_BITS_EXCEEDS_USIZE)
     }
 }
