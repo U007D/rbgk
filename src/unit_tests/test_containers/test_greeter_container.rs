@@ -1,10 +1,10 @@
-use di_containers::DiContainer;
+use di::Container;
 use self::mocks::MockGreeter;
 use super::*;
 
 pub struct TestGreeterContainer {}
 
-impl DiContainer for TestGreeterContainer {
+impl Container for TestGreeterContainer {
     fn build() -> Self {
         Self {}
     }

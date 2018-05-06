@@ -4,7 +4,7 @@ use super::*;
 #[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub struct GreeterContainer {}
 
-impl DiContainer for GreeterContainer {
+impl Container for GreeterContainer {
     fn build() -> Self {
         Self {}
     }

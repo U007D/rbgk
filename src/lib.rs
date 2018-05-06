@@ -22,7 +22,7 @@ extern crate rspec;
 extern crate hesl;
 
 mod consts;
-mod di_containers;
+mod di;
 mod error;
 mod greeter;
 #[cfg(test)]
@@ -30,7 +30,7 @@ mod unit_tests;
 mod width_provider;
 
 use consts::*;
-pub use di_containers::{DiContainer, GreeterContainer};
+pub use di::{Container, GreeterContainer};
 pub use error::Error;
 pub use greeter::Greeter;
 

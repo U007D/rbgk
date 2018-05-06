@@ -1,5 +1,5 @@
-mod di_container;
+mod container;
 mod greeter_container;
 
-pub use self::di_container::DiContainer;
+pub use self::container::Container;
 pub use self::greeter_container::GreeterContainer;

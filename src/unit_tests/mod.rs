@@ -4,7 +4,7 @@ mod mocks;
 mod test_containers;
 
 use rspec::{given, run};
-use di_containers::{DiContainer, GreeterContainer};
+use di::Container;
 use self::test_containers::{TestGreeterContainer, TestWidthProviderContainer};
 use self::greeter::{Greeter, WidthProvider};
 use std::sync::atomic::Ordering;
@@ -12,7 +12,7 @@ use super::*;
 
 #[test]
 fn tests() {
-    run(&given("a DiContainer configured to inject a MockGreeter", (), |ctx| {
+    run(&given("a GreeterContainer configured to inject a MockGreeter", (), |ctx| {
         let container = TestGreeterContainer::build();
         let expected_result = String::from("Hello, this is a test greeting.");
         let greet_expected_times_called = 1;
@@ -31,7 +31,7 @@ fn tests() {
         });
     }));
 
-    run(&given("a DiContainer configured to inject a MockWidthProvider", (), |ctx| {
+    run(&given("a GreeterContainer configured to inject a MockWidthProvider", (), |ctx| {
         let container = TestWidthProviderContainer::build();
         let expected_result = 42;
         let width_expected_times_called = 1;
@@ -50,7 +50,7 @@ fn tests() {
         });
     }));
 
-    run(&given("a DiContainer configured to inject a HelloWorldGreeter", (), |ctx| {
+    run(&given("a GreeterContainer configured to inject a HelloWorldGreeter", (), |ctx| {
         let container = GreeterContainer::build();
         #[cfg(target_pointer_width = "32")]
         let expected_result = "Hello, 32-bit world!";

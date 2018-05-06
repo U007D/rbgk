@@ -1,10 +1,10 @@
-use di_containers::DiContainer;
+use di::Container;
 use self::mocks::MockWidthProvider;
 use super::*;
 
 pub struct TestWidthProviderContainer {}
 
-impl DiContainer for TestWidthProviderContainer {
+impl Container for TestWidthProviderContainer {
     fn build() -> Self {
         Self {}
     }
