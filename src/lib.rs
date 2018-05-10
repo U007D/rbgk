@@ -33,14 +33,11 @@ extern crate hesl;
 mod consts;
 mod di;
 mod error;
-mod greeter;
 #[cfg(test)]
 mod unit_tests;
-mod width_provider;
 
 use consts::*;
-pub use di::{Container, GreeterContainer};
+pub use di::Container;
 pub use error::Error;
-pub use greeter::Greeter;
 
 pub type Result<T> = std::result::Result<T, Error>;

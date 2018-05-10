@@ -21,7 +21,7 @@
 
 extern crate qst;
 
-use qst::{Container, Greeter, GreeterContainer, Result};
+use qst::Result;
 
 fn args() -> Result<Vec<String>> {
     Ok(std::env::args_os()
@@ -30,8 +30,5 @@ fn args() -> Result<Vec<String>> {
 }
 
 fn main() -> Result<()> {
-    println!("{}", GreeterContainer::build()
-                                    .resolve_greeter()
-                                    .greet(args()?));
     Ok(())
 }
