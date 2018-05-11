@@ -42,15 +42,6 @@ opt-level = 0
 panic = "unwind"
 rpath = false
 
-[profile.doc]
-codegen-units = 1
-debug = 2
-debug-assertions = true
-lto = false
-opt-level = 0
-panic = "unwind"
-rpath = false
-
 [profile.release]
 codegen-units = 1
 debug = false

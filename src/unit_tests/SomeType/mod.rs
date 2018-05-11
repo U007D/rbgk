@@ -1,0 +1,3 @@
+mod SomeMethod;
+
+use super::*;
