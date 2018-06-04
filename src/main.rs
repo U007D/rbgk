@@ -1,5 +1,3 @@
-#![cfg_attr(feature = "clippy", feature(plugin))] // nightly rustc required by `clippy`
-#![cfg_attr(feature = "clippy", plugin(clippy))]
 #![allow(match_bool)] // disable false positives
 #![warn(clone_on_ref_ptr, decimal_literal_representation, doc_markdown, else_if_without_else, empty_enum,
         enum_glob_use, expl_impl_clone_on_copy, fallible_impl_from, filter_map, if_not_else, inline_always,

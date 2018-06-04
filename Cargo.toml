@@ -14,12 +14,12 @@ path = "src/main.rs"
 test = false
 
 [dependencies]
-failure = "0.1.1"
+failure = "*"
 hesl = { git = "ssh://git@github.com/humanenginuity/hesl" }
 
-[dependencies.clippy]
+[build-dependencies.clippy]
 optional = true
-version = "0.0.196"
+version = "*"
 
 [dev-dependencies]
 rspec = "1.0.0-beta.4"
