@@ -35,8 +35,18 @@ fn tests() {
                 env.result = TestResult::Tested(env.game.score(&[]));
             });
 
-            ctx.then("there is no score (score is None", |env| {
+            ctx.then("there is no score (score is None)", |env| {
                 assert!(env.result == TestResult::Tested(None));
+            });
+        });
+
+        ctx.when("a gutterball is rolled", |ctx| {
+            ctx.before(|env| {
+                env.result = TestResult::Tested(env.game.score(&[0]));
+            });
+
+            ctx.then("the score is 0", |env| {
+                assert!(env.result == TestResult::Tested(Some(0)));
             });
         });
     }));
