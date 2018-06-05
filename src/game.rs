@@ -7,6 +7,9 @@ impl Game {
     }
 
     pub fn score(&self, rolls: &[u8]) -> Option<u16> {
-        None
+        match rolls.len() {
+            0 => None,
+            _ => Some(0),
+        }
     }
 }
