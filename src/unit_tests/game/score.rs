@@ -43,7 +43,7 @@ fn tests() {
             });
         });
 
-        ctx.when("a gutterball is rolled", |ctx| {
+        ctx.when("incomplete frame: a gutterball is rolled", |ctx| {
             ctx.before(|env| {
                 env.result = TestResult::Tested(env.game.score(&[0]));
                 env.expected_result = TestResult::Tested(Some(0));
@@ -54,7 +54,7 @@ fn tests() {
             });
         });
 
-        ctx.when("one pin is hit by one ball", |ctx| {
+        ctx.when("incomplete frame: one pin is hit by one ball", |ctx| {
             ctx.before(|env| {
                 env.result = TestResult::Tested(env.game.score(&[1]));
                 env.expected_result = TestResult::Tested(Some(1));
@@ -65,7 +65,7 @@ fn tests() {
             });
         });
 
-        ctx.when("two pins are hit by one ball", |ctx| {
+        ctx.when("incomplete frame: two pins are hit by one ball", |ctx| {
             ctx.before(|env| {
                 env.result = TestResult::Tested(env.game.score(&[2]));
                 env.expected_result = TestResult::Tested(Some(2));
@@ -76,13 +76,24 @@ fn tests() {
             });
         });
 
-        ctx.when("two pins, then three pins are hit", |ctx| {
+        ctx.when("open frame: two pins, then three pins are hit", |ctx| {
             ctx.before(|env| {
                 env.result = TestResult::Tested(env.game.score(&[2, 3]));
                 env.expected_result = TestResult::Tested(Some(5));
             });
 
             ctx.then("the score is 5", |env| {
+                assert!(env.result == env.expected_result);
+            });
+        });
+
+        ctx.when("open frame: 4, 5 and then 6 pins are hit", |ctx| {
+            ctx.before(|env| {
+                env.result = TestResult::Tested(env.game.score(&[4, 5, 6]));
+                env.expected_result = TestResult::Tested(Some(15));
+            });
+
+            ctx.then("the score is 15", |env| {
                 assert!(env.result == env.expected_result);
             });
         });
