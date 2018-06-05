@@ -1,15 +1,15 @@
 [package]
-name = "qst"
+name = "rbgk"
 version = "0.1.0"
 authors = ["Brad Gibson <brad@humanenginuity.com>"]
 
 [lib]
-name = "qst"
+name = "rbgk"
 path = "src/lib.rs"
 
 [[bin]]
 doc = false
-name = "qst"
+name = "rbgk"
 path = "src/main.rs"
 test = false
 

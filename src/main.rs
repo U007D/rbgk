@@ -17,9 +17,9 @@
 #![forbid(overflowing_literals, unused_must_use)]
 // End of safety-critical lint section
 
-extern crate qst;
+extern crate rbgk;
 
-use qst::Result;
+use rbgk::Result;
 
 #[allow(dead_code)]
 fn args() -> Result<Vec<String>> {
