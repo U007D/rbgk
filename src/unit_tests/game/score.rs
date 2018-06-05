@@ -97,6 +97,17 @@ fn tests() {
                 assert!(env.result == env.expected_result);
             });
         });
+
+        ctx.when("spare: 4, 6 and then 5 pins are hit", |ctx| {
+            ctx.before(|env| {
+                env.result = TestResult::Tested(env.game.score(&[4, 5, 6]));
+                env.expected_result = TestResult::Tested(Some(20));
+            });
+
+            ctx.then("the score is 20", |env| {
+                assert!(env.result == env.expected_result);
+            });
+        });
     }));
 }
 
