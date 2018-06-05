@@ -3,7 +3,7 @@
         enum_glob_use, expl_impl_clone_on_copy, fallible_impl_from, filter_map, if_not_else, inline_always,
         invalid_upcast_comparisons, int_plus_one, invalid_upcast_comparisons, items_after_statements, linkedlist,
         match_same_arms, mem_forget,
-        /* multiple_crate_versions /* enable before ship to discover and reconcile multiple crate versions */, */
+        /* multiple_crate_versions /* enable before ship to reconcile multiple crate versions in dependencies */, */
         mut_mut, missing_debug_implementations, mut_mut, mutex_integer, needless_borrow, needless_continue,
         nonminimal_bool, option_map_unwrap_or, option_map_unwrap_or_else, option_map_unwrap_or_else,
         option_unwrap_used, pub_enum_variant_names, range_plus_one, replace_consts, redundant_closure,
@@ -21,9 +21,10 @@ extern crate qst;
 
 use qst::Result;
 
+#[allow(dead_code)]
 fn args() -> Result<Vec<String>> {
     Ok(std::env::args_os()
-                .map(|oss| oss.into_string())
+                .map(|os_str| os_str.into_string())
                 .collect::<std::result::Result<Vec<_>, _>>()?)
 }
 

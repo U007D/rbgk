@@ -3,7 +3,7 @@
         enum_glob_use, expl_impl_clone_on_copy, fallible_impl_from, filter_map, if_not_else, inline_always,
         invalid_upcast_comparisons, int_plus_one, invalid_upcast_comparisons, items_after_statements, linkedlist,
         match_same_arms, mem_forget,
-        /* multiple_crate_versions /* enable before ship to discover and reconcile multiple crate versions */, */
+        /* multiple_crate_versions /* enable before ship to reconcile multiple crate versions in dependencies */, */
         mut_mut, missing_debug_implementations, mut_mut, mutex_integer, needless_borrow, needless_continue,
         nonminimal_bool, option_map_unwrap_or, option_map_unwrap_or_else, option_map_unwrap_or_else,
         option_unwrap_used, pub_enum_variant_names, range_plus_one, replace_consts, redundant_closure,
@@ -16,8 +16,7 @@
         indexing_slicing,  integer_arithmetic, maybe_infinite_iter)]
 #![forbid(overflowing_literals, unused_must_use)]
 // End of safety-critical lint section
-
-#![feature(associated_type_defaults, stmt_expr_attributes, try_trait, use_extern_macros)]
+#![feature(try_trait)]
 
 #[macro_use]
 extern crate failure;

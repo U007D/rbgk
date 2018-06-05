@@ -1,7 +1,7 @@
 [package]
 name = "qst"
 version = "0.1.0"
-authors = ["Brad Gibson <b2b@humanenginuity.com>"]
+authors = ["Brad Gibson <brad@humanenginuity.com>"]
 
 [lib]
 name = "qst"
@@ -30,7 +30,7 @@ debug = false
 debug-assertions = false
 lto = true
 opt-level = 3
-#panic = "unwind" #panic = "unwind" required by bench harness; panic setting is ignored
+#panic = "unwind" #required by bench harness; panic setting is ignored
 rpath = false
 
 [profile.dev]

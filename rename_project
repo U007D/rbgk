@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 SCRIPT_HOME_REL_PATH="${0%/*}"
+GITHUB=github
+GITHUB_USER=u007d
 
 if  [[ "${SCRIPT_HOME_REL_PATH}" != "." ]]; then
 	APP_NAME=$(basename "${0}")
@@ -21,6 +23,8 @@ ORIG_PROJ_NAME=$(grep -Em 1 "name\s*=" Cargo.toml | sed -E "s/^name\s*=\s*\"(.*)
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -execdir rename "s/${ORIG_PROJ_NAME}/${1}/g" '{}' \+
 find . -not -iname "rename_project" -not -path "./.git" -not -path "./.git/*" -type f -exec sed -Ei "s/${ORIG_PROJ_NAME}/${1}/g" "{}" \;
 
+git remote set-url origin "${GITHUB}:${GITHUB_USER}/${1}.git"
+
 git >/dev/null commit -am "Renamed project to ${1}."
 
-echo "Project renamed to ${1}. Remember to `git remote set-url origin repo_url:username/{$1}.git`, if applicable."
+echo "Project renamed to ${1}. Remote url for origin set to \`${GITHUB}:${GITHUB_USER}/${1}.git\`."
