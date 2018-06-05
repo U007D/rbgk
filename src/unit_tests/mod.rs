@@ -1,6 +1,6 @@
 extern crate hesl;
 
-mod SomeType;
+mod game;
 
 use rspec::{given, run};
 use di::Container;

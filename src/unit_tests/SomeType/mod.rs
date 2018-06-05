@@ -1,3 +1,0 @@
-mod SomeMethod;
-
-use super::*;
