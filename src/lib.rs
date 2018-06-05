@@ -30,11 +30,13 @@ extern crate hesl;
 mod consts;
 mod di;
 mod error;
+mod game;
 #[cfg(test)]
 mod unit_tests;
 
 use consts::*;
 pub use di::Container;
 pub use error::Error;
+pub use game::Game;
 
 pub type Result<T> = std::result::Result<T, Error>;
