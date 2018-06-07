@@ -4,6 +4,5 @@ extern crate hesl;
 
 mod game;
 
-use di::Container;
 use rspec::{given, run};
 use super::*;
