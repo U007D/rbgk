@@ -31,7 +31,7 @@ impl Env {
 
 #[test]
 fn tests() {
-    run(&given("a game", Env::default(), |ctx| {
+    run(&given("a game", Env::new(), |ctx| {
         ctx.when("no balls are rolled", |ctx| {
             ctx.before(|env| {
                 env.result = TestResult::Tested(env.game.score(&[]));
