@@ -9,7 +9,7 @@ pub enum Error {
     NoneError,
     NoRolls,
     InvalidRoll(u8),
-    InvalidFrame(Vec<u8>),
+    InvalidFrame(Vec<Option<u8>>),
 }
 
 impl fmt::Display for Error {
