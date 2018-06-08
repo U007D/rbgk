@@ -86,6 +86,17 @@ fn tests() {
                 assert!(env.result == env.expected_result);
             });
         });
+
+        ctx.when("a full game of open frames is rolled", |ctx| {
+            ctx.before(|env| {
+                env.result = TestResult::Tested(env.game.score(&[1, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1, 7, 1, 8, 2, 1, 2, 2]));
+                env.expected_result = TestResult::Tested(Some(51));
+            });
+
+            ctx.then("the score is 51", |env| {
+                assert!(env.result == env.expected_result);
+            });
+        });
     }));
 }
 
