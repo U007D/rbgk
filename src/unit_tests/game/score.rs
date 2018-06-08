@@ -38,7 +38,7 @@ fn tests() {
                 env.expected_result = TestResult::Tested(Err(Error::NoRolls));
             });
 
-            ctx.then("`Error::NoRolls` is returned)", |env| {
+            ctx.then("`Error::NoRolls` is returned", |env| {
                 assert!(env.result == env.expected_result);
             });
         });

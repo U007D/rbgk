@@ -8,6 +8,7 @@ pub enum Error {
     InvalidUtf8Arg(OsString),
     NoneError,
     NoRolls,
+    InvalidRoll(u8),
 }
 
 impl fmt::Display for Error {
@@ -16,6 +17,7 @@ impl fmt::Display for Error {
             Error::InvalidUtf8Arg(ref os_string) => format!("{}: {:?}", MSG_ERR_INVALID_UTF8_ARG, os_string),
             Error::NoneError => MSG_ERR_NONE_ERROR.to_string(),
             Error::NoRolls => MSG_ERR_NO_ROLLS.to_string(),
+            Error::InvalidRoll(v) => format!("{}: {}", MSG_ERR_INVALID_ROLL, v),
         })
     }
 }
