@@ -9,6 +9,7 @@ pub enum Error {
     NoneError,
     NoRolls,
     InvalidRoll(u8),
+    InvalidFrame(Vec<u8>),
 }
 
 impl fmt::Display for Error {
@@ -18,6 +19,7 @@ impl fmt::Display for Error {
             Error::NoneError => MSG_ERR_NONE_ERROR.to_string(),
             Error::NoRolls => MSG_ERR_NO_ROLLS.to_string(),
             Error::InvalidRoll(v) => format!("{}: {}", MSG_ERR_INVALID_ROLL, v),
+            Error::InvalidFrame(ref v) => format!("{}: {:?}", MSG_ERR_INVALID_FRAME, v),
         })
     }
 }
