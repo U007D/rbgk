@@ -6,8 +6,10 @@ impl Game {
         Self {}
     }
 
+    #[allow(integer_arithmetic)]
     pub fn score(&self, rolls: &[u8]) -> Option<u16> {
-        rolls.get(0)
-             .map(|&v| u16::from(v))
+        rolls.iter()
+             .map(|v| u16::from(*v))
+             .fold(None, |acc, el| Some(acc.unwrap_or(0) + el))
     }
 }
