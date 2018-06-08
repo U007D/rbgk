@@ -64,6 +64,17 @@ fn tests() {
                 assert!(env.result == env.expected_result);
             });
         });
+
+        ctx.when("2 pins are hit", |ctx| {
+            ctx.before(|env| {
+                env.result = TestResult::Tested(env.game.score(&[2]));
+                env.expected_result = TestResult::Tested(Some(2));
+            });
+
+            ctx.then("the score is 2", |env| {
+                assert!(env.result == env.expected_result);
+            });
+        });
     }));
 }
 
