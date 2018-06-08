@@ -42,6 +42,17 @@ fn tests() {
                 assert!(env.result == env.expected_result);
             });
         });
+
+        ctx.when("a gutterball is rolled", |ctx| {
+            ctx.before(|env| {
+                env.result = TestResult::Tested(env.game.score(&[0]));
+                env.expected_result = TestResult::Tested(Some(0));
+            });
+
+            ctx.then("the score is 0", |env| {
+                assert!(env.result == env.expected_result);
+            });
+        });
     }));
 }
 
