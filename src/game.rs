@@ -7,6 +7,7 @@ impl Game {
     }
 
     pub fn score(&self, rolls: &[u8]) -> Option<u16> {
-        None
+        rolls.get(0)
+             .map(|&v| u16::from(v))
     }
 }
