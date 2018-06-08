@@ -22,22 +22,17 @@ impl Game {
         }
 
         #[allow(integer_arithmetic, indexing_slicing)]
-        fn inner_score<I>(rolls: &I, curr_frame: usize) -> Option<u16> where I: Clone + Debug + Iterator {
+        fn inner_score(rolls: &[u8], curr_frame: usize) -> Option<u16> {
             if curr_frame > FRAMES_PER_GAME {
                 return None;
             }
 
-            let frame_type = match rolls.clone().next() {
-                Some(&ALL_PINS_HIT) => Frame::Strike,
-                _ => Frame::SpareOrOpen,
-            };
-            let rolls_to_start_of_next_frame = match frame_type {
-                Frame::Strike => STRIKE_ROLLS,
-                Frame::SpareOrOpen => SPARE_OR_OPEN_ROLLS,
+            let (frame_type, rolls_to_start_of_next_frame) = match rolls.get(0) {
+                Some(&ALL_PINS_HIT) => (Frame::Strike, STRIKE_ROLLS),
+                _ => (Frame::SpareOrOpen, SPARE_OR_OPEN_ROLLS),
             };
 
-            println!("***{:?}***", rolls);
-            Some(rolls.clone()
+            Some(rolls.iter()
                       .take(match frame_type {
                           Frame::Strike => STRIKE_SCORING_ROLLS,
                           Frame::SpareOrOpen => SPARE_OR_OPEN_SCORING_ROLLS,
@@ -47,9 +42,7 @@ impl Game {
                 + inner_score(rolls, curr_frame + 1).unwrap_or(0))
         }
 
-        let foo = inner_score(&rolls.iter(), 1);
-        println!("*** result ***");
-        foo
+        inner_score(rolls, 1)
     }
 }
 
