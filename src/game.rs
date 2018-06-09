@@ -1,4 +1,4 @@
-use super::{Error, Result};
+use super::{consts::*, Error, Result};
 
 #[derive(Clone, Debug, Default, PartialEq, PartialOrd)]
 pub struct Game {}
@@ -26,14 +26,16 @@ impl Game {
                                  Some(&10) => continue,
                                  _ => {
                                      let ball_2 = it.next();
-                                     match ball_1.expect("ball_1 encountered unexpected None") + ball_2.unwrap_or(&0) {
+                                     //#neverpanic since `None` arm above would have triggered preventing reaching here
+                                     match ball_1.expect(MSG_ERR_INTERNAL_ROLL_NONE) + ball_2.unwrap_or(&0) {
                                          v if v >= 0 && v <= 10 => continue,
-                                         _ => Err(Error::InvalidFrame(vec![ball_1, ball_2]))?,
+                                         _ => Err(Error::InvalidFrame(vec![ball_1.cloned(),
+                                                                           ball_2.cloned()]))?,
                                      }
-                                 }
+                                 },
                              }
-                             Ok(r)
                          }
+                         Ok(r)
                      })
         }
         validate(rolls)?.iter()

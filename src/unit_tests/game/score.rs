@@ -112,7 +112,7 @@ fn tests() {
         ctx.when("an invalid number of pins are hit in one frame", |ctx| {
             ctx.before(|env| {
                 env.result = TestResult::Tested(env.game.score(&[5, 7]));
-                env.expected_result = TestResult::Tested(Err(Error::InvalidFrame(vec![5_u8, 7])));
+                env.expected_result = TestResult::Tested(Err(Error::InvalidFrame(vec![Some(5_u8), Some(7)])));
             });
 
             ctx.then("an Error::InvalidFrame is returned", |env| {
