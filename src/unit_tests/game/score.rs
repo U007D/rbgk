@@ -98,6 +98,17 @@ fn tests() {
             });
         });
 
+        ctx.when("a full game of spares is rolled", |ctx| {
+            ctx.before(|env| {
+                env.result = TestResult::Tested(env.game.score(&[5; 21]));
+                env.expected_result = TestResult::Tested(Ok(150));
+            });
+
+            ctx.then("the score is 150", |env| {
+                assert!(env.result == env.expected_result);
+            });
+        });
+
         ctx.when("an invalid number of pins are hit", |ctx| {
             ctx.before(|env| {
                 env.result = TestResult::Tested(env.game.score(&[11]));
