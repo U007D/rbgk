@@ -130,6 +130,17 @@ fn tests() {
                 assert!(env.result == env.expected_result);
             });
         });
+
+        ctx.when("an invalid number of frames provided (all spares)", |ctx| {
+            ctx.before(|env| {
+                env.result = TestResult::Tested(env.game.score(&[5_u8; 22]));
+                env.expected_result = TestResult::Tested(Err(Error::InvalidGame(vec![5_u8; 22])));
+            });
+
+            ctx.then("an Error::InvalidGame is returned", |env| {
+                assert!(env.result == env.expected_result);
+            });
+        });
     }));
 }
 
