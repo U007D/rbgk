@@ -41,6 +41,14 @@ impl Game {
                     }
                     Ok(r)
                 })
+
+                // Number of rolls does not exceed that of a valid game
+                .and_then(|r| {
+                    match r.len() <= 20 {
+                        true => Ok(r),
+                        false => Err(Error::InvalidGame(r.to_owned()))?,
+                    }
+                })
         }
         validate(rolls)?.iter()
                         .map(|v| u16::from(*v))
