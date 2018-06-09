@@ -1,6 +1,5 @@
-use super::*;
-
 use std::{ffi::OsString, fmt, option::NoneError};
+use super::*;
 
 #[derive(Clone, Debug, Fail, PartialEq, PartialOrd)]
 #[allow(pub_enum_variant_names)]
@@ -10,6 +9,7 @@ pub enum Error {
     NoRolls,
     InvalidRoll(u8),
     InvalidFrame(Vec<Option<u8>>),
+    InvalidGame(Vec<u8>),
 }
 
 impl fmt::Display for Error {
@@ -20,6 +20,7 @@ impl fmt::Display for Error {
             Error::NoRolls => MSG_ERR_NO_ROLLS.to_string(),
             Error::InvalidRoll(v) => format!("{}: {}", MSG_ERR_INVALID_ROLL, v),
             Error::InvalidFrame(ref v) => format!("{}: {:?}", MSG_ERR_INVALID_FRAME, v),
+            Error::InvalidGame(ref v) => format!("{}: {:?}", MSG_ERR_INVALID_GAME, v),
         })
     }
 }
