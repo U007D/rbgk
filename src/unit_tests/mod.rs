@@ -2,6 +2,7 @@
 
 extern crate hesl;
 
+mod frame;
 mod game;
 
 use rspec::{given, run};
