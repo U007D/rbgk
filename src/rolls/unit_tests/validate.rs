@@ -59,3 +59,27 @@ fn roll_11_invalid() {
     // then the result should be an error indicating an invalid roll was provided
     assert!(result == Err(Error::InvalidRoll(*rolls.get(0).unwrap())));
 }
+
+#[test]
+fn roll_all_spares_valid() {
+    // given a game of all spares
+    let rolls = &[5; 21];
+
+    // the rolls are validated
+    let result = Rolls::validate(rolls);
+
+    // then the result should be `Ok()`
+    assert!(result == Ok(rolls.as_ref()));
+}
+
+#[test]
+fn too_many_spares_invalid() {
+    // given a game + an extra roll of all spares
+    let rolls = &[5; 22];
+
+    // the rolls are validated
+    let result = Rolls::validate(rolls);
+
+    // then the result should be an error indicating an invalid frame was provided
+    assert!(result == Err(Error::TooManyRolls));
+}

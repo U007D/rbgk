@@ -4,3 +4,4 @@ pub const MSG_ERR_INVALID_UTF8_ARG: &str = "Argument containing invalid UTF-8 de
 pub const MSG_ERR_INVALID_ROLL: &str = "Invalid roll value provided";
 pub const MSG_ERR_INVALID_FRAME: &str = "Roll values comprising frame are invalid";
 pub const MSG_ERR_INTERNAL_ERR_EXPECTED: &str = "Internal error: expected an Err but was not found";
+pub const MSG_ERR_TOO_MANY_ROLLS: &str = "Too many rolls.  Game completed but additional rolls remain.";
