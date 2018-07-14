@@ -1,10 +1,10 @@
-#[cfg(test)]
-mod unit_tests;
-mod validators;
-
 use self::validators::*;
 use std::ops::Deref;
 use super::{consts::*, Error, Game, Result};
+
+#[cfg(test)]
+mod unit_tests;
+mod validators;
 
 #[derive(Clone, Debug, PartialEq, PartialOrd)]
 pub struct Rolls<'a>(&'a [u8]);
@@ -17,8 +17,8 @@ impl<'a> Rolls<'a> {
     fn validate(rolls: &'a [u8]) -> Result<&'a [u8]> {
         #[allow(unused_comparisons, absurd_extreme_comparisons)]
         match rolls.iter()
-                   .map(|&v| Ok(v).and_then(|v| validate_roll_value(v))
-                                  .and_then(|v| validate_frame(v)))
+                   .map(|&v| Ok(v).and_then(validate_roll_value)
+                                  .and_then(validate_frame))
                    .filter(|v| v.is_err())
                    .nth(0) {
             None => Ok(rolls),

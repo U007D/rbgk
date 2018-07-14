@@ -1,6 +1,5 @@
-use super::*;
-
 use std::{ffi::OsString, fmt, option::NoneError};
+use super::*;
 
 #[derive(Clone, Debug, Fail, PartialEq, PartialOrd)]
 #[allow(pub_enum_variant_names)]
@@ -21,7 +20,7 @@ impl fmt::Display for Error {
             Error::NoRolls => MSG_ERR_NO_ROLLS.to_string(),
             Error::InvalidRoll(v) => format!("{}: {}", MSG_ERR_INVALID_ROLL, v),
             Error::InvalidFrame(ref i, ref v) => format!("{}: [{}]: {:?}", MSG_ERR_INVALID_FRAME, i, v),
-            Error::TooManyRolls => format!("{}", MSG_ERR_TOO_MANY_ROLLS),
+            Error::TooManyRolls => String::from(MSG_ERR_TOO_MANY_ROLLS),
         })
     }
 }
